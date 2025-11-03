@@ -19,9 +19,13 @@ O objetivo do jogo é chegar ao topo da tela em segurança, completando a missã
 ## 📁 Estrutura do Projeto
 
 TheLastMan/
+
 ├── src/ # Código-fonte do jogo
+
 ├── include/ # Headers (.h) das funções e structs
+
 ├── data/ # Arquivos de recorde e configuração
+
 └── cli-lib/ # Biblioteca CLI para renderizar o jogo no terminal
 
 ## ▶️ Executando o Jogo
