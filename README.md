@@ -34,7 +34,7 @@ Para executar o **TheLastMan**, siga estas etapas:
 
 1. Clone este repositório em sua máquina:
 
-git@github.com:VR0414/Frogger-Game.git
+git@github.com:VR0414/TheLastMan.git
 
 2. Entre na pasta do projeto:
 
@@ -42,10 +42,10 @@ cd TheLastMan
 
 3. Compile o programa:
 
-gcc ./src/*.c cli-lib/src/*.c -I./include -I./cli-lib/include -o FroggerGame -std=c99 -Wall -Wextra
+gcc ./src/*.c cli-lib/src/*.c -I./include -I./cli-lib/include -o TheLastMan -std=c99 -Wall -Wextra
 
 4. Rode o programa:
 
-./FroggerGame
+./TheLastMan
 
 5. Divirta-se!
