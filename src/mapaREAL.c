@@ -17,8 +17,26 @@ Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo) {
 
     for (int l = 0; l < linhas; l++) {
         for (int c = 0; c < colunas; c++) {
-            int idx = l * colunas + c;
-            mapa->celulas[idx] = nulo;
+            int indice = l * colunas + c;
+            mapa->celulas[indice] = nulo;
         }
     }
+
+    int largura_abrigo = 7;
+    int centro = colunas / 2;
+
+    int inicio = centro - (largura_abrigo / 2);
+    if (inicio < 0) 
+        inicio = 0;
+
+    int fim = centro + (largura_abrigo / 2); // int fim = inicio + largura_abrigo;
+    if (fim > colunas)
+        fim = colunas;
+
+    for (int casa = inicio; casa < fim; casa++) {
+        int a = casa;
+        mapa->celulas[a] = abrigo;
+    }
+
+    return mapa;
 }
