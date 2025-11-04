@@ -16,6 +16,7 @@ O objetivo do jogo é chegar ao topo da tela em segurança, completando a missã
 
 ---
 
+
 ## 📁 Estrutura do Projeto
 
 TheLastMan/
