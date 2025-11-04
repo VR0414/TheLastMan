@@ -39,4 +39,5 @@ Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo) {
     }
 
     return mapa;
+    
 }
