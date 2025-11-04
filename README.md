@@ -42,7 +42,7 @@ cd Frogger-Game
 
 3. Compile o programa:
 
-gcc ./src/*.c cli-lib/src/*.c -I./include -I./cli-lib/include -o Frogger-Game -std=c99 -Wall -Wextra
+gcc ./src/*.c cli-lib/src/*.c -I./include -I./cli-lib/include -o FroggerGame -std=c99 -Wall -Wextra
 
 4. Rode o programa:
 
