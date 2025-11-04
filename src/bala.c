@@ -21,12 +21,13 @@ void liberar_lista_balas(ListaBalas *l){
     free(l);
 }
 
-void adicionar_bala(ListaBalas *l, int linha, int coluna){
+void adicionar_bala(ListaBalas *l, int linha, int coluna, int dx){
     if(!l) return;
     Bala *b = malloc(sizeof(Bala));
     if(!b) return;
     b->linha = linha;
     b->coluna = coluna;
+    b->dx = dx;
     b->proximo = l->inicio;
     l->inicio = b;
 }
@@ -36,19 +37,19 @@ void desenhar_balas_em_mapa(ListaBalas *l, void *mapa_void){
     if(!m || !l) return;
     Bala *p = l->inicio;
     while(p){
-        // apenas desenha se dentro do mapa
         if(p->linha >= 0 && p->linha < m->linhas && p->coluna >=0 && p->coluna < m->colunas)
             definir_celula(m, p->linha, p->coluna, '^');
         p = p->proximo;
     }
 }
 
-// move as balas para cima (linha--) — retorna colisao 1 se jogador foi atingido (pos px,py)
+// move as balas horizontalmente (coluna += dx) — retorna colisao 1 se jogador foi atingido (pos px,py)
 void atualizar_balas(ListaBalas *l, void *mapa_void, int *colisao, int px, int py){
     Mapa *m = (Mapa*)mapa_void;
     if(!m || !l) return;
     *colisao = 0;
-    // primeiro limpa todas as balas do mapa (vamos redesenhar)
+
+    // limpa todas as balas do mapa (vamos redesenhar)
     Bala *p = l->inicio;
     while(p){
         if(p->linha >=0 && p->linha < m->linhas && p->coluna >=0 && p->coluna < m->colunas)
@@ -56,25 +57,28 @@ void atualizar_balas(ListaBalas *l, void *mapa_void, int *colisao, int px, int p
         p = p->proximo;
     }
 
-    // atualizar posições
+    // atualizar posições: mover horizontalmente; remover se saiu das colunas
     Bala *ant = NULL;
     p = l->inicio;
     while(p){
-        p->linha -= 1; // sobe
+        p->coluna += p->dx; // move
         Bala *next = p->proximo;
-        // se saiu do mapa, remover nó
-        if(p->linha < 0){
+
+        // se saiu das colunas -> remover
+        if(p->coluna < 0 || p->coluna >= m->colunas){
             if(ant) ant->proximo = next;
             else l->inicio = next;
             free(p);
             p = next;
             continue;
         }
+
         // se atingiu jogador
         if(p->linha == px && p->coluna == py){
             *colisao = 1;
-            // não removemos agora; será redesenhado
+            // não removemos imediatamente; será redesenhado e o jogo detecta colisão
         }
+
         ant = p;
         p = next;
     }
