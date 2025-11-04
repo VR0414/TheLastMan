@@ -13,9 +13,11 @@ typedef struct Mapa {
 
 } Mapa;
 
-Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo);
+Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo); // Fun;ão para criar mapa e retornar ponteiro para o mesmo
 
+void liberar_mapa(Mapa *mapa); // Função para liberar mapa criado
 
+int mapa_limites(Mapa *mapa, int linhas, int colunas, char paredes);
 
 
 
