@@ -68,29 +68,29 @@ void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo) {
     }
 }
 
-void preencher_abrigo(Mapa *mapa, char abrigo) {
 
-    int colunas = mapa->colunas;
-    int linhas = mapa->linhas;
+void preencher_abrigo(Mapa *mapa, char abrigo) { // Define a função que preenche o abrigo no mapa usando o caractere 'abrigo'
 
-    int largura_abrigo = 7;
-    int centro = colunas / 2;
+    int colunas = mapa->colunas; // Lê o número de colunas do mapa
+    int linhas = mapa->linhas;   // Lê o número de linhas do mapa 
 
-    int inicio = centro - (largura_abrigo / 2);
+    int largura_abrigo = 7; // Define a largura desejada do abrigo (número de casas horizontais)
+    int centro = colunas / 2; // Calcula a coluna central do mapa (divisão inteira)
+
+    int inicio = centro - (largura_abrigo / 2); // Calcula a coluna inicial do abrigo, deixando no centro
     if (inicio < 0) 
-        inicio = 0; // Inicia abrigo na linha 1 
+        inicio = 0; // Se o início ficou antes da coluna 0, ajusta para 0 (protege limite esquerdo)
 
-    int fim = centro + (largura_abrigo / 2); // int fim = inicio + largura_abrigo;
+    int fim = centro + (largura_abrigo / 2); // Calcula a coluna final do abrigo (exclusivo ou inclusivo dependendo do uso abaixo)
     if (fim > colunas)
-        fim = colunas;
+        fim = colunas; // Se o fim ultrapassa o número de colunas, ajusta para o limite direito
 
-    int linha_abrigo = mapa->linhas - 1;
+    int linha_abrigo = mapa->linhas - 1; // Define a linha onde o abrigo será desenhado (última linha do mapa)
 
-    for (int casa = inicio; casa < fim; casa++) { // casa = abrigo
-        int a = linha_abrigo * colunas + casa; // "a" de Abrigo, apenas para fazer referência
-        mapa->celulas[a] = abrigo;
+    for (int casa = inicio; casa < fim; casa++) { // Itera pelas colunas do início até (fim-1)
+        int a = linha_abrigo * colunas + casa; // Converte coordenadas (linha, coluna) para índice linear no vetor de células
+        mapa->celulas[a] = abrigo; // Atribui o caractere 'abrigo' à célula correspondente no mapa
     }
-
 }
 
 void imprimir_mapa(Mapa *mapa) {
@@ -99,6 +99,6 @@ void imprimir_mapa(Mapa *mapa) {
         for (int c = 0; c < mapa->colunas; c++) {
             putchar(mapa->celulas[l * mapa->colunas + c]);
         }
-        putchar("\n");
+        putchar('\n');
     }
 }
