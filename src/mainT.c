@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-//#include <termios.h>
+#include <termios.h>
 #include <time.h>
 
-#include "mapa.Th"
-#include "jogador.h"
-#include "bala.h"
+#include "mapaREAL.h"
+#include "jogadorT.h"
+#include "balaT.h"
 
 #define LINHAS 20
 #define COLUNAS 40
