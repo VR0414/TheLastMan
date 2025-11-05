@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "jogador.h"
-#include "mapa.h"
+#include "mapa.Th"
 
 Soldado *criar_soldado(int linha, int coluna){
     Soldado *s = malloc(sizeof(Soldado));

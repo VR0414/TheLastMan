@@ -4,7 +4,7 @@
 //#include <termios.h>
 #include <time.h>
 
-#include "mapa.h"
+#include "mapa.Th"
 #include "jogador.h"
 #include "bala.h"
 

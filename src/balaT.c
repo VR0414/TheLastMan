@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "bala.h"
-#include "mapa.h"
+#include "mapa.Th"
 
 // lista de balas (simples linked list)
 ListaBalas *criar_lista_balas(){
