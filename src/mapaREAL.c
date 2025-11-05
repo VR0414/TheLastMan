@@ -69,7 +69,8 @@ void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo) {
 }
 
 
-void preencher_abrigo(Mapa *mapa, char abrigo) { // Define a função que preenche o abrigo no mapa usando o caractere 'abrigo'
+// Preenche uma área centralizada na penúltima linha do mapa com o caractere 'abrigo', representando o abrigo do jogador.
+void preencher_abrigo(Mapa *mapa, char abrigo) {
 
     int colunas = mapa->colunas; // Lê o número de colunas do mapa
     int linhas = mapa->linhas;   // Lê o número de linhas do mapa 
@@ -81,15 +82,17 @@ void preencher_abrigo(Mapa *mapa, char abrigo) { // Define a função que preenc
     if (inicio < 0) 
         inicio = 0; // Se o início ficou antes da coluna 0, ajusta para 0 (protege limite esquerdo)
 
-    int fim = centro + (largura_abrigo / 2); // Calcula a coluna final do abrigo (exclusivo ou inclusivo dependendo do uso abaixo)
+    int fim = inicio + largura_abrigo; // Garante que o abrigo terá sempre a largura correta
     if (fim > colunas)
         fim = colunas; // Se o fim ultrapassa o número de colunas, ajusta para o limite direito
 
-    int linha_abrigo = mapa->linhas - 1; // Define a linha onde o abrigo será desenhado (última linha do mapa)
+    int linha_abrigo = mapa->linhas - 2; // Define a linha onde o abrigo será desenhado (penúltima linha do mapa)
 
     for (int casa = inicio; casa < fim; casa++) { // Itera pelas colunas do início até (fim-1)
-        int a = linha_abrigo * colunas + casa; // Converte coordenadas (linha, coluna) para índice linear no vetor de células
-        mapa->celulas[a] = abrigo; // Atribui o caractere 'abrigo' à célula correspondente no mapa
+        if (casa >= 0 && casa < colunas && linha_abrigo >= 0 && linha_abrigo < linhas) {
+            int a = linha_abrigo * colunas + casa; // Converte coordenadas (linha, coluna) para índice linear no vetor de células
+            mapa->celulas[a] = abrigo; // Atribui o caractere 'abrigo' à célula correspondente no mapa
+        }
     }
 }
 
