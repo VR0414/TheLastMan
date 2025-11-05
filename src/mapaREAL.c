@@ -52,7 +52,7 @@ void liberar_mapa(Mapa *mapa) {
 
 }
 
-int mapa_limites(Mapa *mapa, char paredes) {
+int preencher_limites(Mapa *mapa, char paredes) {
 
     if (mapa->linhas < 0 || mapa->colunas < 0) 
         return -1;
@@ -70,12 +70,37 @@ int mapa_limites(Mapa *mapa, char paredes) {
     }
 
     // Preenche coluna esquerda (mapa->colunas = 0) e coluna direita (mapa->colunas - 1)
-    for (int Linhas = 0; Linhas < mapa->linhas; Linhas++) { 
-        int esquerda = Linhas * mapa->colunas;
-        int direita = Linhas * mapa->colunas + (mapa->colunas - 1);
+    for (int l = 0; l < mapa->linhas; l++) { 
+        int esquerda = l * mapa->colunas;
+        int direita = l * mapa->colunas + (mapa->colunas - 1);
         mapa->celulas[esquerda] = paredes;
         mapa->celulas[direita] = paredes;
     }
 
     return 0;
 }
+
+void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo) {
+
+    for (int l = 0; l < mapa->linhas; l++) {
+        for (int c = 0; c < mapa->colunas; c++) {
+
+            int indice = l * mapa->colunas + c;
+
+            if (mapa->celulas[indice] != paredes || mapa->celulas[indice] != abrigo) {
+                mapa->celulas[indice] = nulo;
+            }
+        }
+    }
+}
+
+void imprimir_mapa(Mapa *mapa) {
+
+    for (int l = 0; l < mapa->linhas; l++) {
+        for (int c = 0; c < mapa->colunas; c++) {
+            putchar(mapa->celulas[l * mapa->colunas + c]);
+        }
+        putchar("\n");
+    }
+}
+
