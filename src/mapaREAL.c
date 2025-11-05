@@ -57,19 +57,20 @@ int mapa_limites(Mapa *mapa, char paredes) {
     if (mapa->linhas < 0 || mapa->colunas < 0) 
         return -1;
 
-    // mapa->colunas = 80;
-    for (int LinhaSuperior = 0; LinhaSuperior < mapa->colunas; LinhaSuperior++) { // Preenche Linha Superior do mapa
+    // Preenchimento Linha 0 | mapa->colunas = 80;
+    for (int LinhaSuperior = 0; LinhaSuperior < mapa->colunas; LinhaSuperior++) { 
         int indice = LinhaSuperior;
         mapa->celulas[indice] = paredes;
     }
 
-    // mapa->colunas = 80; 
-    for (int LinhaInferior = 0; LinhaInferior < mapa->colunas; LinhaInferior++) { // Preenche Linha Inferior do mapa
+    // Preenche Linha (mapa->linhas - 1) -> Última linha | mapa->colunas = 80; 
+    for (int LinhaInferior = 0; LinhaInferior < mapa->colunas; LinhaInferior++) { 
         int indice = (mapa->linhas - 1) * mapa->colunas + LinhaInferior;
         mapa->celulas[indice] = paredes;
     }
 
-    for (int Linhas = 0; Linhas < mapa->linhas; Linhas++) { // Preenche Colunas esquerda e direita do mapa
+    // Preenche coluna esquerda (mapa->colunas = 0) e coluna direita (mapa->colunas - 1)
+    for (int Linhas = 0; Linhas < mapa->linhas; Linhas++) { 
         int esquerda = Linhas * mapa->colunas;
         int direita = Linhas * mapa->colunas + (mapa->colunas - 1);
         mapa->celulas[esquerda] = paredes;
