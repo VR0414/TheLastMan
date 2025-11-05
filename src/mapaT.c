@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mapa.h"
+#include "mapaT.h"
 
 Mapa *criar_mapa(int linhas, int colunas){
     Mapa *m = malloc(sizeof(Mapa));
