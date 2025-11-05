@@ -39,7 +39,7 @@ git@github.com:VR0414/TheLastMan.git
 
 2. Entre na pasta do projeto:
 
-cd Frogger-Game
+cd TheLastMan
 
 3. Compile o programa:
 
