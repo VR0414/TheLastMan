@@ -13,32 +13,7 @@ Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo) {
     mapa->colunas = colunas;
     mapa->abrigo = abrigo;
 
-    mapa->celulas = (char *)malloc(linhas * colunas * sizeof(char));
-
-    for (int l = 0; l < linhas; l++) {
-        for (int c = 0; c < colunas; c++) {
-            int indice = l * colunas + c;
-            mapa->celulas[indice] = nulo;
-        }
-    }
-
-    int largura_abrigo = 7;
-    int centro = colunas / 2;
-
-    int inicio = centro - (largura_abrigo / 2);
-    if (inicio < 0) 
-        inicio = 1; // Inicia abrigo na linha 1 
-
-    int fim = centro + (largura_abrigo / 2); // int fim = inicio + largura_abrigo;
-    if (fim > colunas)
-        fim = colunas;
-
-    int linha_abrigo = mapa->linhas - 1;
-
-    for (int casa = inicio; casa < fim; casa++) { // casa = abrigo
-        int a = linha_abrigo * colunas + casa; // "a" de Abrigo, apenas para fazer referência
-        mapa->celulas[a] = abrigo;
-    }
+    mapa->celulas = (char *)malloc(linhas * colunas * sizeof(char)); // Aloca todas as células
 
     return mapa;
 
@@ -59,8 +34,7 @@ int preencher_limites(Mapa *mapa, char paredes) {
 
     // Preenchimento Linha 0 | mapa->colunas = 80;
     for (int LinhaSuperior = 0; LinhaSuperior < mapa->colunas; LinhaSuperior++) { 
-        int indice = LinhaSuperior;
-        mapa->celulas[indice] = paredes;
+        mapa->celulas[LinhaSuperior] = paredes;
     }
 
     // Preenche Linha (mapa->linhas - 1) -> Última linha | mapa->colunas = 80; 
@@ -94,6 +68,31 @@ void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo) {
     }
 }
 
+void preencher_abrigo(Mapa *mapa, char abrigo) {
+
+    int colunas = mapa->colunas;
+    int linhas = mapa->linhas;
+
+    int largura_abrigo = 7;
+    int centro = colunas / 2;
+
+    int inicio = centro - (largura_abrigo / 2);
+    if (inicio < 0) 
+        inicio = 0; // Inicia abrigo na linha 1 
+
+    int fim = centro + (largura_abrigo / 2); // int fim = inicio + largura_abrigo;
+    if (fim > colunas)
+        fim = colunas;
+
+    int linha_abrigo = mapa->linhas - 1;
+
+    for (int casa = inicio; casa < fim; casa++) { // casa = abrigo
+        int a = linha_abrigo * colunas + casa; // "a" de Abrigo, apenas para fazer referência
+        mapa->celulas[a] = abrigo;
+    }
+
+}
+
 void imprimir_mapa(Mapa *mapa) {
 
     for (int l = 0; l < mapa->linhas; l++) {
@@ -103,4 +102,3 @@ void imprimir_mapa(Mapa *mapa) {
         putchar("\n");
     }
 }
-

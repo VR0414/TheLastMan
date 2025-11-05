@@ -27,6 +27,8 @@ int preencher_limites(Mapa *mapa, char paredes); // Função para limitar mapa
 
 void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo);
 
+void preencher_abrigo(Mapa *mapa, char abrigo);
+
 void imprimir_mapa(Mapa *mapa);
 
 
