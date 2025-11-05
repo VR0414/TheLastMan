@@ -17,7 +17,7 @@ Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo); // Fun;ão pa
 
 void liberar_mapa(Mapa *mapa); // Função para liberar mapa criado
 
-int mapa_limites(Mapa *mapa, int linhas, int colunas, char paredes);
+int mapa_limites(Mapa *mapa, char paredes);
 
 
 
