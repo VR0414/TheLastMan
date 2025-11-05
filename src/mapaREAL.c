@@ -65,13 +65,13 @@ int mapa_limites(Mapa *mapa, char paredes) {
 
     // mapa->colunas = 80; 
     for (int LinhaInferior = 0; LinhaInferior < mapa->colunas; LinhaInferior++) { // Preenche Linha Inferior do mapa
-        int indice = (mapa->colunas - 1) * mapa->colunas + LinhaInferior;
+        int indice = (mapa->linhas - 1) * mapa->colunas + LinhaInferior;
         mapa->celulas[indice] = paredes;
     }
 
     for (int Linhas = 0; Linhas < mapa->linhas; Linhas++) { // Preenche Colunas esquerda e direita do mapa
-        int esquerda = mapa->linhas * mapa->colunas;
-        int direita = mapa->linhas * mapa->colunas + (mapa->colunas - 1);
+        int esquerda = Linhas * mapa->colunas;
+        int direita = Linhas * mapa->colunas + (mapa->colunas - 1);
         mapa->celulas[esquerda] = paredes;
         mapa->celulas[direita] = paredes;
     }
