@@ -3,11 +3,9 @@
 
 typedef struct Bala {
 
-    int linha;
-    int coluna;
-    int direcao; // +1 para direita, -1 para esquerda;
-    int velocidade;
-    int contador_movimento; // "tick" para determinar movimento da bala
+    float linha, coluna; // +1 para direita, -1 para esquerda;
+    float velLinha, velColuna; 
+    int contador_tempo; // "tick" para determinar movimento da bala
     struct Bala *proxima; 
 
 } Bala;
@@ -19,7 +17,7 @@ typedef struct ListaBalas {
 
 } ListaBalas;
 
-
+Bala *criar_bala(float l, float c, float velL, float velC, int tempo);
 
 
 
