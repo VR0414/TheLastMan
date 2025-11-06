@@ -61,7 +61,7 @@ void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo) {
 
             int indice = l * mapa->colunas + c;
 
-            if (mapa->celulas[indice] != paredes || mapa->celulas[indice] != abrigo) {
+            if (mapa->celulas[indice] != paredes && mapa->celulas[indice] != abrigo) {
                 mapa->celulas[indice] = nulo;
             }
         }
@@ -104,4 +104,5 @@ void imprimir_mapa(Mapa *mapa) {
         }
         putchar('\n');
     }
+
 }
