@@ -19,7 +19,8 @@ typedef struct ListaBalas {
 
 Bala *criar_bala(float l, float c, float velL, float velC, int tempo);
 
+void inserir_bala_inicio(ListaBalas *lista, Bala *bala);
 
-
+void remover_balas_lista(ListaBalas *lista, Bala *bala_alvo);
 
 #endif
