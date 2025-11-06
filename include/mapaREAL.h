@@ -13,7 +13,7 @@ typedef struct Mapa {
 
 } Mapa;
 
-Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo); // Fun;ão para criar mapa e retornar ponteiro para o mesmo
+Mapa *criar_mapa(int linhas, int colunas, char abrigo); // Fun;ão para criar mapa e retornar ponteiro para o mesmo
 
 void liberar_mapa(Mapa *mapa); // Função para liberar mapa criado
 

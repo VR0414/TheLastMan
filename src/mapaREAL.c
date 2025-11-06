@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Mapa *criar_mapa(int linhas, int colunas, char nulo, char abrigo) {
+Mapa *criar_mapa(int linhas, int colunas, char abrigo) {
 
     if (linhas <= 0 || colunas <= 0)
         return NULL;
@@ -68,30 +68,28 @@ void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo) {
     }
 }
 
-
-// Preenche uma área centralizada na penúltima linha do mapa com o caractere 'abrigo', representando o abrigo do jogador.
 void preencher_abrigo(Mapa *mapa, char abrigo) {
 
-    int colunas = mapa->colunas; // Lê o número de colunas do mapa
-    int linhas = mapa->linhas;   // Lê o número de linhas do mapa 
+    int colunas = mapa->colunas; 
+    int linhas = mapa->linhas;   
 
-    int largura_abrigo = 7; // Define a largura desejada do abrigo (número de casas horizontais)
-    int centro = colunas / 2; // Calcula a coluna central do mapa (divisão inteira)
+    int largura_abrigo = 7; 
+    int centro = colunas / 2; 
 
-    int inicio = centro - (largura_abrigo / 2); // Calcula a coluna inicial do abrigo, deixando no centro
+    int inicio = centro - (largura_abrigo / 2); 
     if (inicio < 0) 
-        inicio = 0; // Se o início ficou antes da coluna 0, ajusta para 0 (protege limite esquerdo)
+        inicio = 0; 
 
-    int fim = inicio + largura_abrigo; // Garante que o abrigo terá sempre a largura correta
+    int fim = inicio + largura_abrigo; 
     if (fim > colunas)
-        fim = colunas; // Se o fim ultrapassa o número de colunas, ajusta para o limite direito
+        fim = colunas; 
 
-    int linha_abrigo = mapa->linhas - 2; // Define a linha onde o abrigo será desenhado (penúltima linha do mapa)
+    int linha_abrigo = mapa->linhas - 2; // Define linha do abrigo como ante-penúltima
 
-    for (int casa = inicio; casa < fim; casa++) { // Itera pelas colunas do início até (fim-1)
+    for (int casa = inicio; casa < fim; casa++) { 
         if (casa >= 0 && casa < colunas && linha_abrigo >= 0 && linha_abrigo < linhas) {
-            int a = linha_abrigo * colunas + casa; // Converte coordenadas (linha, coluna) para índice linear no vetor de células
-            mapa->celulas[a] = abrigo; // Atribui o caractere 'abrigo' à célula correspondente no mapa
+            int indice = linha_abrigo * colunas + casa; 
+            mapa->celulas[indice] = abrigo;
         }
     }
 }
