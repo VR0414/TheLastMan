@@ -23,4 +23,4 @@ void inserir_bala_inicio(ListaBalas *lista, Bala *bala);
 
 void remover_balas_lista(ListaBalas *lista, Bala *bala_alvo);
 
-#endif
+#endif 
