@@ -1,6 +1,8 @@
 #ifndef BALAS_H
 #define BALAS_H
 
+#include "mapaREAL.h"
+
 typedef struct Bala {
 
     float linha, coluna; // +1 para direita, -1 para esquerda;
@@ -22,5 +24,9 @@ Bala *criar_bala(float l, float c, float velL, float velC, int tempo);
 void inserir_bala_inicio(ListaBalas *lista, Bala *bala);
 
 void remover_balas_lista(ListaBalas *lista, Bala *bala_alvo);
+
+void atualizar_balas(ListaBalas *lista, Mapa *mapa, char paredes, char abrigo);
+
+void imprimir_mapa_com_balas(Mapa *mapa, ListaBalas *lista, char simbolo_bala);
 
 #endif 
