@@ -150,9 +150,10 @@ void imprimir_mapa_com_balas(Mapa *mapa, ListaBalas *lista, char simbolo_bala) {
                 bala = bala->proxima;
             }
 
-            if (desenhou_bala == NULL)
+            if (desenhou_bala == 0)
                 putchar(tiro);
         }
         putchar('\n');
     }
 }
+
