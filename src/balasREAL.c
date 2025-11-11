@@ -25,12 +25,12 @@ void inicio_lista_balas(ListaBalas *lista) {
 }
 
 void liberar_lista_balas(ListaBalas *lista) {
-    if (!lista) return;
-    Bala *cur = lista->head;
-    while (cur) {
-        Bala *prox = cur->proxima;
-        free(cur);
-        cur = prox;
+    
+    Bala *atual = lista->head;
+    while (atual) {
+        Bala *proxima = atual->proxima;
+        free(atual);
+        atual = proxima;
     }
     lista->head = NULL;
     lista->quantidade_balas = 0;
