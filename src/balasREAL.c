@@ -24,6 +24,18 @@ void inicio_lista_balas(ListaBalas *lista) {
 
 }
 
+void liberar_lista_balas(ListaBalas *lista) {
+    if (!lista) return;
+    Bala *cur = lista->head;
+    while (cur) {
+        Bala *prox = cur->proxima;
+        free(cur);
+        cur = prox;
+    }
+    lista->head = NULL;
+    lista->quantidade_balas = 0;
+}
+
 void inserir_bala_inicio(ListaBalas *lista, Bala *bala) { // "*lista" ponteiro para o início da lista encadeada de balas
 
     if (lista == NULL || bala == NULL)
