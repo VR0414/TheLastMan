@@ -141,6 +141,15 @@ void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
     }
 }
 
+int disparar_bala(ListaBalas *lista, float l, float c, float velL, float velC, int tempo) {
+    
+    Bala *b = criar_bala(l, c, velL, velC, tempo);
+    if (!b) return -1;
+    inserir_bala_inicio(lista, b);
+    return 0;
+    
+}
+
 void imprimir_mapa_com_balas(Mapa *mapa, ListaBalas *lista, char simbolo_bala) {
 
     for (int l = 0; l < mapa->linhas; l++) {
