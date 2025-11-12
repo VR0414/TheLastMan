@@ -4,14 +4,21 @@
 #include <stdio.h>
 
 Mapa *criar_mapa(int linhas, int colunas, char abrigo) {
-    if (linhas <= 0 || colunas <= 0)
-        return NULL;
+    if (linhas <= 0 || colunas <= 0){
+        return NULL;}
 
     Mapa *mapa = (Mapa *)malloc(sizeof(Mapa));
+    if (!mapa) return NULL;
+
     mapa->linhas = linhas;
     mapa->colunas = colunas;
     mapa->abrigo = abrigo;
-    mapa->celulas = (char *)malloc(linhas * colunas * sizeof(char));
+
+    mapa->celulas = (char *)calloc((size_t)linhas * (size_t)colunas, sizeof(char));
+    if (!mapa->celulas) { 
+        free(mapa); return NULL; }
+    for (int i = 0; i < linhas * colunas; i++){
+        mapa->celulas[i] = ' ';}
     return mapa;
 }
 
