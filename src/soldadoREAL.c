@@ -31,7 +31,7 @@ void iniciar_soldado( Soldado *s, float linha, float coluna, int vida, char simb
     
 }
 
-int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna, int entrada_abrigo) {
+int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna) {
 
     float nova_linha = s->linha + deslocLinha;
     float nova_coluna = s->coluna + deslocColuna;
