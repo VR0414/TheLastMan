@@ -57,19 +57,28 @@ void preencher_chao(Mapa *mapa, char vazio, char parede, char abrigo) {
 }
 
 void preencher_abrigo(Mapa *mapa, char abrigo) {
-    int colunas = mapa->colunas;
-    int largura = 7;
-    int centro = colunas / 2;
-    int inicio = centro - largura / 2;
-    int fim = inicio + largura;
-    int linha = mapa->linhas - 2;
+    if (mapa == NULL) return;
+    if (mapa->celulas == NULL) return;
+    if (mapa->linhas <= 1 || mapa->colunas <= 2) return; // mapa pequeno demais
 
+    int largura = 7;
+    if (mapa->colunas - 2 < largura) largura = mapa->colunas - 2; // evita colidir com bordas
+
+    int centro = mapa->colunas / 2;
+    int inicio = centro - largura / 2;
+    if (inicio < 1) inicio = 1; // não sobrepor borda
+    int fim = inicio + largura;
+    if (fim > mapa->colunas - 1) fim = mapa->colunas - 1; // não sobrepor borda
+
+    int linha = mapa->linhas - 2;
     for (int c = inicio; c < fim; c++) {
         mapa->celulas[linha * mapa->colunas + c] = abrigo;
     }
 }
 
 void imprimir_mapa(Mapa *mapa) {
+    if (mapa == NULL) return;
+    if (mapa->celulas == NULL) return;
     for (int l = 0; l < mapa->linhas; l++) {
         for (int c = 0; c < mapa->colunas; c++) {
             putchar(mapa->celulas[l * mapa->colunas + c]);
