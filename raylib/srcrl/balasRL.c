@@ -1,4 +1,4 @@
-#include "balasREAL.h"
+#include "balasRL.h"
 #include "raylib.h"
 #include <stdlib.h>
 
@@ -35,7 +35,6 @@ void remover_balas_lista(ListaBalas *lista, Bala *alvo) {
                 anterior->proxima = atual->proxima;
             else
                 lista->head = atual->proxima;
-
             free(atual);
             lista->quantidade_balas--;
             return;
@@ -46,7 +45,7 @@ void remover_balas_lista(ListaBalas *lista, Bala *alvo) {
 }
 
 void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
-    Bala *atual = lista->head, *anterior = NULL;
+    Bala *atual = lista->head;
     while (atual) {
         Bala *prox = atual->proxima;
 
@@ -73,14 +72,15 @@ void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
     }
 }
 
-// FUNÇÃO NOVA → desenhar as balas visualmente
 void desenhar_balas(ListaBalas *lista, int tamanho_celula) {
     Bala *b = lista->head;
     while (b) {
-        DrawCircle((int)(b->coluna * tamanho_celula + tamanho_celula / 2),
-                   (int)(b->linha * tamanho_celula + tamanho_celula / 2),
-                   tamanho_celula / 3,
-                   RED);
+        DrawCircle(
+            (int)(b->coluna * tamanho_celula + tamanho_celula / 2),
+            (int)(b->linha * tamanho_celula + tamanho_celula / 2),
+            tamanho_celula / 3,
+            RED
+        );
         b = b->proxima;
     }
 }
