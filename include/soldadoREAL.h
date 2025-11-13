@@ -12,6 +12,7 @@ typedef struct Soldado {
 
 } Soldado;
 
+Soldado *criar_soldado(float linha, float coluna, int vida, char simbolo);
 
 
 
