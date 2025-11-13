@@ -13,3 +13,8 @@ Soldado *criar_soldado(float linha, float coluna, int vida, char simbolo) {
 
     return s;
 }
+
+void inicia_soldado(float linha, float coluna, int vida, char simbolo) {
+
+    
+}
