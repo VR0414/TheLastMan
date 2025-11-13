@@ -14,6 +14,14 @@ Soldado *criar_soldado(float linha, float coluna, int vida, char simbolo) {
     return s;
 }
 
+void liberar_soldado(Soldado *s) {
+
+    if (s == NULL)
+        return;
+    free(s);
+
+}
+
 void iniciar_soldado( Soldado *s, float linha, float coluna, int vida, char simbolo) {
 
     s->linha = linha;
