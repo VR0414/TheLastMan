@@ -30,3 +30,29 @@ void iniciar_soldado( Soldado *s, float linha, float coluna, int vida, char simb
     s->simbolo = simbolo;
     
 }
+
+int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna, int entrada_abrigo) {
+
+    float nova_linha = s->linha + deslocLinha;
+    float nova_coluna = s->coluna + deslocColuna;
+
+    int intLinha = (int)nova_linha; 
+    int intColuna = (int)nova_coluna;
+
+    if (intLinha < 0 || intLinha >= mapa->linhas || intColuna < 0 || intColuna >= mapa->colunas)
+        return 0;
+
+    char destino = mapa->celulas[intLinha * mapa->colunas + intColuna];
+
+    if (destino == mapa->abrigo ) 
+        return 1;
+
+    if (destino != ' ')
+        return 0;
+    return 1;
+
+    s->linha = nova_linha;
+    s->coluna = nova_coluna;
+    return 1;
+
+}
