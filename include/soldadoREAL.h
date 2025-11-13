@@ -14,6 +14,8 @@ typedef struct Soldado {
 
 Soldado *criar_soldado(float linha, float coluna, int vida, char simbolo);
 
+void liberar_soldado(Soldado *s);
+
 void iniciar_soldado(Soldado *s, float linha, float coluna, int vida, char simbolo);
 
 
