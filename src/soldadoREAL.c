@@ -36,7 +36,8 @@ int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna,
     float nova_linha = s->linha + deslocLinha;
     float nova_coluna = s->coluna + deslocColuna;
 
-    int intLinha = (int)nova_linha; 
+    int intLinha = (int)nova_linha; // Conversão após uso de suavização de movimento do soldao sobre linhas e colunas do mapa
+     
     int intColuna = (int)nova_coluna;
 
     if (intLinha < 0 || intLinha >= mapa->linhas || intColuna < 0 || intColuna >= mapa->colunas)

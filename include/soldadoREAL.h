@@ -6,7 +6,7 @@
 
 typedef struct Soldado {
 
-    float linha, coluna;
+    float linha, coluna; // Suaviza movimento
     int vida;
     char simbolo;
 
