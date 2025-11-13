@@ -23,34 +23,36 @@ Mapa *criar_mapa(int linhas, int colunas, char abrigo) {
 }
 
 void liberar_mapa(Mapa *mapa) {
-    if (mapa->celulas) free(mapa->celulas);
+    if (!mapa) return;
+    if (mapa->celulas){
+         free(mapa->celulas);}
     free(mapa);
 }
 
-int preencher_limites(Mapa *mapa, char paredes) {
-    if (mapa->linhas < 0 || mapa->colunas < 0)
-        return -1;
+int preencher_limites(Mapa *mapa, char parede) {
+    if (mapa == NULL) return -1;
+    if (mapa->linhas <= 0 || mapa->colunas <= 0) return -1;
+    if (mapa->celulas == NULL) return -1;
 
     for (int c = 0; c < mapa->colunas; c++) {
-        mapa->celulas[c] = paredes;
-        mapa->celulas[(mapa->linhas - 1) * mapa->colunas + c] = paredes;
+        mapa->celulas[c] = parede;
+        mapa->celulas[(mapa->linhas - 1) * mapa->colunas + c] = parede;
     }
-
     for (int l = 0; l < mapa->linhas; l++) {
-        mapa->celulas[l * mapa->colunas] = paredes;
-        mapa->celulas[l * mapa->colunas + mapa->colunas - 1] = paredes;
+        mapa->celulas[l * mapa->colunas] = parede;
+        mapa->celulas[l * mapa->colunas + mapa->colunas - 1] = parede;
     }
-
     return 0;
 }
 
-void preencher_chao(Mapa *mapa, char nulo, char paredes, char abrigo) {
-    for (int l = 0; l < mapa->linhas; l++) {
-        for (int c = 0; c < mapa->colunas; c++) {
-            int i = l * mapa->colunas + c;
-            if (mapa->celulas[i] != paredes && mapa->celulas[i] != abrigo)
-                mapa->celulas[i] = nulo;
-        }
+void preencher_chao(Mapa *mapa, char vazio, char parede, char abrigo) {
+    if (mapa == NULL) return;
+    if (mapa->celulas == NULL) return;
+
+    int total = mapa->linhas * mapa->colunas;
+    for (int i = 0; i < total; i++) {
+        if (mapa->celulas[i] != parede && mapa->celulas[i] != abrigo)
+            mapa->celulas[i] = vazio;
     }
 }
 
