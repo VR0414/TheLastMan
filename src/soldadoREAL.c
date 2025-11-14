@@ -56,4 +56,13 @@ int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna)
     s->linha = nova_linha;
     s->coluna = nova_coluna;
     return 1;
+
 }
+
+int reset_posicao_soldado(Soldado *s, float linha, float coluna)  {
+
+    s->linha = linha;
+    s->coluna = coluna;
+
+}
+
