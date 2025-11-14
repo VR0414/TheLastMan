@@ -33,10 +33,10 @@ void iniciar_soldado( Soldado *s, float linha, float coluna, int vida, char simb
 
 int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna) {
 
-    float nova_linha = s->linha + deslocLinha;
+    float nova_linha = s->linha + deslocLinha; // Suavização de movimento
     float nova_coluna = s->coluna + deslocColuna;
 
-    int intLinha = (int)nova_linha;
+    int intLinha = (int)nova_linha; // Converte para aplicar mudança correta após suavização
     int intColuna = (int)nova_coluna;
 
     if (intLinha < 0 || intLinha >= mapa->linhas || intColuna < 0 || intColuna >= mapa->colunas)
