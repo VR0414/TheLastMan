@@ -20,7 +20,6 @@ void iniciar_soldado(Soldado *s, float linha, float coluna, int vida, char simbo
 
 int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna);
 
-
-
+int reset_posicao_soldado(Soldado *s, float linha, float coluna);
 
 #endif
