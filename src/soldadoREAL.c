@@ -36,24 +36,24 @@ int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna)
     float nova_linha = s->linha + deslocLinha;
     float nova_coluna = s->coluna + deslocColuna;
 
-    int intLinha = (int)nova_linha; // Conversão após uso de suavização de movimento do soldao sobre linhas e colunas do mapa
-     
+    int intLinha = (int)nova_linha;
     int intColuna = (int)nova_coluna;
 
     if (intLinha < 0 || intLinha >= mapa->linhas || intColuna < 0 || intColuna >= mapa->colunas)
-        return 0;
+        return 0; // fora do mapa -> bloqueado
 
     char destino = mapa->celulas[intLinha * mapa->colunas + intColuna];
 
-    if (destino == mapa->abrigo ) 
+    if (destino == mapa->abrigo) {
+        s->linha = nova_linha;
+        s->coluna = nova_coluna;
         return 1;
-
+    }
+    
     if (destino != ' ')
         return 0;
-    return 1;
-
+    
     s->linha = nova_linha;
     s->coluna = nova_coluna;
     return 1;
-
 }
