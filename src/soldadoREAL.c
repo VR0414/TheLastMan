@@ -1,4 +1,4 @@
-#include <Stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "soldadoREAL.h"
 
@@ -77,5 +77,5 @@ int dano_soldado(Soldado *s, int dano, float inicioLinha, float inicioColuna) {
     reset_posicao_soldado(s, inicioLinha, inicioColuna);
 
     return s->vida;
-    
+
 }
