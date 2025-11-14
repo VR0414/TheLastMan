@@ -66,3 +66,16 @@ int reset_posicao_soldado(Soldado *s, float linha, float coluna)  {
 
 }
 
+int dano_soldado(Soldado *s, int dano, float inicioLinha, float inicioColuna) {
+
+    s->vida -= dano;
+    if (s->vida <= 0) {
+        s->vida = 0;
+        return 0;
+    } 
+
+    reset_posicao_soldado(s, inicioLinha, inicioColuna);
+
+    return s->vida;
+    
+}
