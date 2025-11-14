@@ -22,4 +22,6 @@ int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna)
 
 int reset_posicao_soldado(Soldado *s, float linha, float coluna);
 
+int dano_soldado(Soldado *s, int dano, float inicioLinha, float inicioColuna);
+
 #endif
