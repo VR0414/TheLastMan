@@ -66,7 +66,7 @@ void reset_posicao_soldado(Soldado *s, float linha, float coluna)  {
 
 }
 
-int dano_soldado(Soldado *s, int dano, float inicioLinha, float inicioColuna) {
+int aplicar_dano_soldado(Soldado *s, int dano, float inicioLinha, float inicioColuna) {
 
     s->vida -= dano;
     if (s->vida <= 0) {
