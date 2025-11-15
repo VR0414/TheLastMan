@@ -57,15 +57,25 @@ void remover_balas_lista(ListaBalas *lista, Bala *alvo) {
     }
 }
 
+// Atualiza a posição das balas na lista, remove balas que colidem com paredes, abrigos ou saem do mapa.
+// Parâmetros:
+//   lista   - ponteiro para a lista de balas a ser atualizada
+//   mapa    - ponteiro para o mapa do jogo
+//   parede  - caractere representando uma parede no mapa
+//   abrigo  - caractere representando um abrigo no mapa
 void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
+    if (!lista || !mapa) return;
+    
     Bala *atual = lista->head;
     while (atual) {
         Bala *prox = atual->proxima;
 
-        if (--atual->contador_tempo <= 0) {
+        if (atual->contador_tempo <= 1) {
             remover_balas_lista(lista, atual);
             atual = prox;
             continue;
+        } else {
+            atual->contador_tempo--;
         }
 
         float novaL = atual->linha + atual->velLinha;
@@ -76,11 +86,14 @@ void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
             mapa->celulas[lin * mapa->colunas + col] == parede ||
             mapa->celulas[lin * mapa->colunas + col] == abrigo) {
             remover_balas_lista(lista, atual);
+            atual = prox;
+            continue;
         } else {
             atual->linha = novaL;
             atual->coluna = novaC;
         }
 
+        atual = prox;
         atual = prox;
     }
 }
