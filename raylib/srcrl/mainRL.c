@@ -15,7 +15,7 @@ int main(void) {
     // ---------------- MAPA ----------------
     Mapa *mapa = criar_mapa(MAPA_LINHAS, MAPA_COLUNAS, ' ');
     preencher_limites(mapa, '#');
-    preencher_chao(mapa, '.');
+    preencher_chao(mapa, '.', '#', '=');
     preencher_abrigo(mapa, '=');
 
     // ---------------- SOLDADO ----------------
