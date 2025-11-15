@@ -27,8 +27,10 @@ Mapa *criar_mapa(int linhas, int colunas, char abrigo) {
 
 void liberar_mapa(Mapa *mapa) {
     if (!mapa) return;
-    if (mapa->celulas) free(mapa->celulas);
-    free(mapa);
+    if (mapa->celulas){
+         free(mapa->celulas);
+            free(mapa);
+                        }       
 }
 
 int preencher_limites(Mapa *mapa, char parede) {

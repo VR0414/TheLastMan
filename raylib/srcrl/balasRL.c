@@ -17,7 +17,7 @@ Bala *criar_bala(float l, float c, float velL, float velC, int tempo) {
 
 
 void inicio_lista_balas(ListaBalas *lista) {
-    if (!lista) return;  
+    if (!lista || !lista->head) return;  
     lista->head = NULL;
     lista->quantidade_balas = 0;
 }
@@ -98,6 +98,10 @@ void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
     }
 }
 
+// Desenha todas as balas presentes na lista na tela.
+// Parâmetros:
+//   lista          - ponteiro para a lista de balas a serem desenhadas
+//   tamanho_celula - tamanho de cada célula no grid do jogo (usado para posicionamento)
 void desenhar_balas(ListaBalas *lista, int tamanho_celula) {
     if (!lista) return;  
 
