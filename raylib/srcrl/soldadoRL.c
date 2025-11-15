@@ -47,9 +47,16 @@ int aplicar_dano_soldado(Soldado *s, int dano, float inicioL, float inicioC) {
     if (s->vida <= 0)
         s->vida = 0;
 
-    // reset
+    // reset após dano
     s->linha = inicioL;
     s->coluna = inicioC;
 
     return s->vida;
 }
+
+// ✔ NOVA FUNÇÃO (necessária para seu mainRL.c)
+void reset_posicao_soldado(Soldado *s, float linha, float coluna) {
+    s->linha = linha;
+    s->coluna = coluna;
+}
+
