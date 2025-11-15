@@ -17,11 +17,15 @@ Bala *criar_bala(float l, float c, float velL, float velC, int tempo) {
 
 
 void inicio_lista_balas(ListaBalas *lista) {
-    if (!lista || !lista->head) return;  
+    if (!lista) return;
     lista->head = NULL;
     lista->quantidade_balas = 0;
 }
 
+// Insere uma bala no início da lista de balas.
+// Parâmetros:
+//   lista - ponteiro para a lista de balas onde a bala será inserida
+//   bala  - ponteiro para a bala a ser inserida
 void inserir_bala_inicio(ListaBalas *lista, Bala *bala) {
     if (!lista || !bala) return;
 
@@ -57,14 +61,14 @@ void remover_balas_lista(ListaBalas *lista, Bala *alvo) {
     }
 }
 
-// Atualiza a posição das balas na lista, remove balas que colidem com paredes, abrigos ou saem do mapa.
+// Atualiza a posição das balas na lista, removendo aquelas que colidem com paredes, abrigos ou saem do mapa.
 // Parâmetros:
 //   lista   - ponteiro para a lista de balas a ser atualizada
 //   mapa    - ponteiro para o mapa do jogo
 //   parede  - caractere representando uma parede no mapa
 //   abrigo  - caractere representando um abrigo no mapa
 void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
-    if (!lista || !mapa) return;
+    if (!lista || !mapa || !mapa->celulas) return;
     
     Bala *atual = lista->head;
     while (atual) {
@@ -93,7 +97,6 @@ void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
             atual->coluna = novaC;
         }
 
-        atual = prox;
         atual = prox;
     }
 }
