@@ -3,7 +3,9 @@
 #include <stdlib.h>
 
 Bala *criar_bala(float l, float c, float velL, float velC, int tempo) {
-    Bala *b = (Bala *)malloc(sizeof(Bala));
+    Bala *b = malloc(sizeof(Bala));
+    if (!b) return NULL;  
+
     b->linha = l;
     b->coluna = c;
     b->velLinha = velL;
@@ -13,17 +15,28 @@ Bala *criar_bala(float l, float c, float velL, float velC, int tempo) {
     return b;
 }
 
+
 void inicio_lista_balas(ListaBalas *lista) {
+    if (!lista) return;  
     lista->head = NULL;
     lista->quantidade_balas = 0;
 }
 
 void inserir_bala_inicio(ListaBalas *lista, Bala *bala) {
     if (!lista || !bala) return;
+
     bala->proxima = lista->head;
     lista->head = bala;
     lista->quantidade_balas++;
 }
+
+//void inserir_bala_inicio(ListaBalas *lista, Bala *nova) {
+//    if (!lista || !nova) return;      FIALHO TESTAR
+//    nova->proxima = lista->head;
+//    lista->head = nova;
+//    lista->quantidade_balas++;
+//}
+
 
 void remover_balas_lista(ListaBalas *lista, Bala *alvo) {
     if (!lista || !alvo) return;
@@ -73,14 +86,18 @@ void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo) {
 }
 
 void desenhar_balas(ListaBalas *lista, int tamanho_celula) {
+    if (!lista) return;  
+
     Bala *b = lista->head;
     while (b) {
         DrawCircle(
-            (int)(b->coluna * tamanho_celula + tamanho_celula / 2),
-            (int)(b->linha * tamanho_celula + tamanho_celula / 2),
+            (b->coluna * tamanho_celula + tamanho_celula / 2),
+            (b->linha * tamanho_celula + tamanho_celula / 2),
             tamanho_celula / 3,
             RED
         );
         b = b->proxima;
     }
 }
+        
+
