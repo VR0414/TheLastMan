@@ -40,12 +40,48 @@ int main(void) {
 
         // ---- ATIRAR BALAS (só para teste) ----
         if (IsKeyPressed(KEY_SPACE)) {
-            Bala *nova = criar_bala(0, GetRandomValue(1, mapa->colunas - 2), 0.2f, 0, 300);
-            inserir_bala_inicio(&lista, nova);
-        }
+            // Constants for bala creation
+            const int BALA_SPAWN_LINHA = 0;
+            const float BALA_VELOCIDADE_LINHA = 0.2f;
+            const float BALA_VELOCIDADE_COLUNA = 0.0f;
+            const int BALA_DANO = 300;
 
-        // ---- ATUALIZAR BALAS ----
-        atualizar_balas(&lista, mapa, '#', '=');
+            Bala *nova = criar_bala(
+                BALA_SPAWN_LINHA,
+        Bala *b = lista.head;
+        Bala *anterior = NULL;
+        while (b) {
+            if ((int)b->linha == (int)jogador.linha &&
+                (int)b->coluna == (int)jogador.coluna) {
+
+                aplicar_dano_soldado(&jogador, 1, spawnInicialL, spawnInicialC);
+
+                // Remover bala após atingir o jogador
+                Bala *remover = b;
+                if (anterior == NULL) {
+                    lista.head = b->proxima;
+        Bala *b = lista.head;
+        Bala *anterior = NULL;
+        while (b) {
+            if ((int)b->linha == (int)jogador.linha &&
+                (int)b->coluna == (int)jogador.coluna) {
+
+                aplicar_dano_soldado(&jogador, 1, spawnInicialL, spawnInicialC);
+
+                // Remover bala da lista
+                Bala *remover = b;
+                if (anterior) {
+                    anterior->proxima = b->proxima;
+                } else {
+                    lista.head = b->proxima;
+                b = b->proxima;
+                free(remover);
+                continue;
+            }
+            anterior = b;
+            b = b->proxima;
+        }
+        }
 
         // ---- COLISÃO JOGADOR X BALAS ----
         Bala *b = lista.head;
@@ -75,12 +111,13 @@ int main(void) {
             (int)(jogador.coluna * CELULA + CELULA / 2),
             (int)(jogador.linha * CELULA + CELULA / 2),
             CELULA / 2,
-            GREEN
-        );
+    // ------ ENCERRAR ------
+    liberar_lista_balas(&lista);
+    liberar_mapa(mapa);
+    CloseWindow();
 
-        // Desenha as balas
-        desenhar_balas(&lista, CELULA);
-
+    return 0;
+}
         DrawText("Use as setas para mover. SPACE = gerar bala.", 10, 10, 20, WHITE);
         DrawText(TextFormat("Vida: %d", jogador.vida), 10, 40, 20, RED);
 
