@@ -1,6 +1,3 @@
-// ===================================================
-// ARQUIVO: mapaRL.h
-// ===================================================
 #ifndef MAPA_RL_H
 #define MAPA_RL_H
 
@@ -11,7 +8,7 @@ typedef struct Mapa {
     Rectangle areaDeVitoria;
 } Mapa;
 
-Mapa *criar_mapa(const char *texturaFundoPath, Rectangle areaDeVitoria);
+Mapa *criar_mapa(const char *texturaFundoPath, Rectangle areaDeVitoria, int screenW, int screenH);
 void liberar_mapa(Mapa *mapa);
 void desenhar_mapa(Mapa *mapa);
 int checar_vitoria_mapa(Mapa *mapa, Rectangle colisaoSoldado);
