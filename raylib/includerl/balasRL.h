@@ -3,26 +3,42 @@
 
 #include "mapaRL.h"
 
+// ----------------------------------------------------
+// STRUCT DA BALA
+// ----------------------------------------------------
 typedef struct Bala {
     float linha;
     float coluna;
     float velLinha;
     float velColuna;
-    int contador_tempo;
+    int dano;
     struct Bala *proxima;
 } Bala;
 
+// ----------------------------------------------------
+// LISTA DE BALAS
+// ----------------------------------------------------
 typedef struct {
     Bala *head;
-    int quantidade_balas;
+    int quantidade;
 } ListaBalas;
 
-Bala *criar_bala(float l, float c, float velL, float velC, int tempo);
+// ----------------------------------------------------
+// FUNÇÕES PRINCIPAIS
+// ----------------------------------------------------
+Bala *criar_bala(float l, float c, float velL, float velC, int dano);
+
 void inicio_lista_balas(ListaBalas *lista);
-void inserir_bala_inicio(ListaBalas *lista, Bala *bala);
-void remover_balas_lista(ListaBalas *lista, Bala *alvo);
-void atualizar_balas(ListaBalas *lista, Mapa *mapa, char parede, char abrigo);
-void desenhar_balas(ListaBalas *lista, int tamanho_celula); // Raylib
+
+void adicionar_bala(ListaBalas *lista, Bala *b);
+
+void remover_bala(ListaBalas *lista, Bala *alvo);
+
+void atualizar_balas(ListaBalas *lista, Mapa *mapa);
+
+void desenhar_balas(ListaBalas *lista, int tamanho_celula);
+
+// libertar toda a lista
+void liberar_lista_balas(ListaBalas *lista);
 
 #endif
-
