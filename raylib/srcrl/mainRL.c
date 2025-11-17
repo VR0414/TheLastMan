@@ -1,169 +1,213 @@
+// ===================================================
+// ARQUIVO: mainRL.c (NOVO E COMPLETO)
+// ===================================================
+
 #include "raylib.h"
 #include "../includerl/mapaRL.h"
 #include "../includerl/balasRL.h"
 #include "../includerl/soldadoRL.h"
-#include <stdlib.h>
+#include <stdlib.h> // Para NULL
+#include <stdio.h>  // Para TextFormat
 
-#define CELULA 20
+// ----------------------------------------------------
+// ESTADOS DO JOGO
+// ----------------------------------------------------
+typedef enum {
+    TELA_MENU,
+    TELA_JOGO,
+    TELA_FIM
+} EstadoJogo;
 
+// ----------------------------------------------------
+// DIMENSÕES (Pode ajustar como quiser)
+// ----------------------------------------------------
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 900;
+
+// ----------------------------------------------------
+// MAIN
+// ----------------------------------------------------
 int main(void) {
-    // --- tela cheia do monitor
-    int screenW = GetMonitorWidth(0);
-    int screenH = GetMonitorHeight(0);
-    InitWindow(screenW, screenH, "The Last Man - Raylib Edition");
+    // --- INICIALIZAÇÃO DA JANELA ---
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "The Last Man - Edição Raylib");
     SetTargetFPS(60);
 
-    // Calcula dimensões do mapa (ajusta CELULA para caber se quiser)
-    int mapa_cols = MAPA_COLUNAS;
-    int mapa_lines = MAPA_LINHAS;
-    // se a grade não ocupar a tela toda, pode ajustar CELULA ou desenhar centralizado.
-    // aqui usaremos CELULA definido e centralizaremos o mapa na tela.
-    int tam_cel = CELULA;
-    int mapa_pixel_w = mapa_cols * tam_cel;
-    int mapa_pixel_h = mapa_lines * tam_cel;
-    int offset_x = (screenW - mapa_pixel_w) / 2;
-    int offset_y = (screenH - mapa_pixel_h) / 2;
+    // --- ESTADO INICIAL ---
+    EstadoJogo estadoAtual = TELA_MENU;
 
-    // ---------------- MAPA ----------------
-    Mapa *mapa = criar_mapa(mapa_lines, mapa_cols, CEL_ABRIGO, CEL_PAREDE, CEL_CHAO);
-    preencher_limites(mapa);
-    preencher_chao(mapa);
-    preencher_abrigo(mapa);
+    // --- CARREGAR RECURSOS (Texturas) ---
+    // !!! VOCÊ PRECISA CRIAR ESSES ARQUIVOS DE IMAGEM !!!
+    // Crie uma pasta 'resources' e coloque as imagens lá.
+    // 
+    // 
+    // 
+    Texture2D texturaBala = LoadTexture("resources/bala.png");
+    // (Texturas do mapa e soldado são carregadas dentro de criar_mapa/criar_soldado)
 
-    // ---------------- SOLDADO ----------------
-    Soldado jogador;
-    iniciar_soldado(&jogador, mapa->linhas - 2, mapa->colunas / 2, 3, '@');
-    float spawnInicialL = jogador.linha;
-    float spawnInicialC = jogador.coluna;
+    // --- CRIAR OBJETOS DO JOGO (Usando as novas funções) ---
+    
+    // 1. MAPA
+    // O "abrigo" será uma faixa de 50 pixels no topo da tela
+    Rectangle areaVitoria = { 0, 0, SCREEN_WIDTH, 50 };
+    Mapa *mapa = criar_mapa("resources/campo.png", areaVitoria);
+    if (!mapa) { /* Erro ao carregar mapa */ }
 
-    // ---------------- LISTA DE BALAS ----------------
-    ListaBalas lista;
-    inicio_lista_balas(&lista);
+    // 2. SOLDADO
+    // Posição inicial: centro, na parte de baixo da tela
+    Vector2 posInicialSoldado = { SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 60.0f };
+    // Dimensões do soldado (ex: 32x32 pixels) - AJUSTE PARA O TAMANHO DA SUA IMAGEM
+    float soldWidth = 32.0f;
+    float soldHeight = 32.0f;
+    float soldVel = 250.0f; // 250 pixels por segundo
+    Soldado *jogador = criar_soldado(posInicialSoldado, 3, soldVel, soldWidth, soldHeight, "resources/soldado.png");
+    if (!jogador) { /* Erro ao carregar jogador */ }
 
-    // timer de spawn automático de balas
+    // 3. BALAS
+    ListaBalas listaBalas;
+    inicio_lista_balas(&listaBalas);
+    // Dimensões da bala (ex: 10x10 pixels) - AJUSTE PARA O TAMANHO DA SUA IMAGEM
+    float balaWidth = 10.0f;
+    float balaHeight = 10.0f;
+    
+    // Timer para spawn de balas
     float spawnTimer = 0.0f;
-    const float spawnInterval = 0.4f; // a cada 0.4s gera uma bala
+    float spawnIntervalo = 0.3f; // Nova bala a cada 0.3 segundos
 
-    // estados: 0 = menu inicial, 1 = jogando
-    int estado = 0;
+    // Timer do jogo (para recorde)
+    float tempoDeJogo = 0.0f;
 
+    // --- LOOP PRINCIPAL (Máquina de Estados) ---
     while (!WindowShouldClose()) {
 
-        // --- entrada e updates ---
-        if (estado == 0) {
-            if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
-                estado = 1;
-            }
-        } else if (estado == 1) {
-            // contornos do mapa para mover em "grade" usando floats.
-            if (IsKeyDown(KEY_UP))    mover_soldado(&jogador, mapa, -0.12f, 0);
-            if (IsKeyDown(KEY_DOWN))  mover_soldado(&jogador, mapa,  0.12f, 0);
-            if (IsKeyDown(KEY_LEFT))  mover_soldado(&jogador, mapa, 0, -0.12f);
-            if (IsKeyDown(KEY_RIGHT)) mover_soldado(&jogador, mapa, 0,  0.12f);
-
-            // teste spawn manual rápido
-            if (IsKeyPressed(KEY_SPACE)) {
-                Bala *nova = criar_bala(0, (float)(GetRandomValue(1, mapa->colunas - 2)), 0.4f, 0.0f, 1);
-                adicionar_bala(&lista, nova);
-            }
-
-            // spawn automático
-            spawnTimer += GetFrameTime();
-            if (spawnTimer >= spawnInterval) {
-                spawnTimer = 0;
-                float col = (float)GetRandomValue(1, mapa->colunas - 2);
-                Bala *nova = criar_bala(0.0f, col, 0.25f, 0.0f, 1);
-                adicionar_bala(&lista, nova);
-            }
-
-            // atualiza balas (movimento + remoções)
-            atualizar_balas(&lista, mapa);
-
-            // checa colisões soldado x balas (e remove a bala)
-            Bala *b = lista.head;
-            Bala *anterior = NULL;
-            while (b) {
-                if ((int)b->linha == (int)jogador.linha &&
-                    (int)b->coluna == (int)jogador.coluna) {
-
-                    aplicar_dano_soldado(&jogador, b->dano, spawnInicialL, spawnInicialC);
-
-                    // remover bala atingida
-                    Bala *rem = b;
-                    if (anterior) anterior->proxima = b->proxima;
-                    else lista.head = b->proxima;
-                    b = b->proxima;
-                    free(rem);
-                    continue;
+        switch (estadoAtual) {
+            
+            // ==========================================
+            // TELA_MENU (O "Lobby")
+            // ==========================================
+            case TELA_MENU:
+            {
+                // --- LÓGICA DO MENU ---
+                if (IsKeyPressed(KEY_ENTER)) {
+                    // Resetar jogo para começar
+                    jogador->vida = 3;
+                    reset_posicao_soldado(jogador);
+                    liberar_lista_balas(&listaBalas); // Limpa balas se houver
+                    tempoDeJogo = 0.0f;
+                    estadoAtual = TELA_JOGO;
                 }
-                anterior = b;
-                b = b->proxima;
+            
+                // --- DESENHO DO MENU ---
+                BeginDrawing();
+                ClearBackground(BLACK);
+                DrawText("THE LAST MAN", SCREEN_WIDTH / 2 - MeasureText("THE LAST MAN", 40) / 2, SCREEN_HEIGHT / 3, 40, WHITE);
+                DrawText("Pressione ENTER para começar", SCREEN_WIDTH / 2 - MeasureText("Pressione ENTER para começar", 20) / 2, SCREEN_HEIGHT / 2, 20, GRAY);
+                DrawText("W, A, S, D para mover", SCREEN_WIDTH / 2 - MeasureText("W, A, S, D para mover", 20) / 2, SCREEN_HEIGHT / 2 + 30, 20, GRAY);
+                EndDrawing();
             }
-
-            // se chegar no topo -> vencer / reset para testar
-            if ((int)jogador.linha <= 1) {
-                // aqui você pode adicionar pontuação; por enquanto reset
-                reset_posicao_soldado(&jogador, spawnInicialL, spawnInicialC);
-            }
-        }
-
-        // --- desenhar ---
-        BeginDrawing();
-        ClearBackground(BLACK);
-
-        if (estado == 0) {
-            // TELA INICIAL
-            const char *title = "THE LAST MAN";
-            int fontSize = 80;
-            int subSize = 24;
-            int tw = MeasureText(title, fontSize);
-            DrawText(title, (screenW - tw) / 2, screenH / 3, fontSize, RAYWHITE);
-            DrawText("Press ENTER or SPACE to start", (screenW - MeasureText("Press ENTER or SPACE to start", subSize)) / 2,
-                     screenH / 2, subSize, BEIGE);
-            DrawText("Use arrow keys to move", (screenW - MeasureText("Use arrow keys to move", subSize)) / 2,
-                     screenH / 2 + 32, subSize, BEIGE);
-        } else {
-            // desenha mapa centralizado
-            DrawRectangle(offset_x - 2, offset_y - 2, mapa_pixel_w + 4, mapa_pixel_h + 4, DARKGRAY);
-            // desenhar mapa em offset (desenhar_mapa usa posições em 0..n, então vamos traduzir)
-            // Para facilitar, temporariamente transformamos a matriz para tela desenhando cada célula com offset.
-            for (int l = 0; l < mapa->linhas; l++) {
-                for (int c = 0; c < mapa->colunas; c++) {
-                    char cel = mapa->celulas[l * mapa->colunas + c];
-                    Color cor = WHITE;
-                    if (cel == mapa->parede) cor = DARKGRAY;
-                    else if (cel == mapa->abrigo) cor = ORANGE;
-                    else if (cel == mapa->vazio) cor = BEIGE;
-                    DrawRectangle(offset_x + c * tam_cel, offset_y + l * tam_cel, tam_cel, tam_cel, cor);
+            break;
+            
+            // ==========================================
+            // TELA_JOGO (O Jogo Rodando)
+            // ==========================================
+            case TELA_JOGO:
+            {
+                // --- LÓGICA DE UPDATE ---
+                
+                // 1. Atualizar Soldado (Input e Movimento)
+                atualizar_soldado(jogador, SCREEN_WIDTH, SCREEN_HEIGHT);
+                
+                // 2. Atualizar Balas (Movimento e Despawn)
+                atualizar_balas(&listaBalas, SCREEN_WIDTH, SCREEN_HEIGHT);
+                
+                // 3. Spawn de Novas Balas (Vindo dos lados)
+                spawnTimer += GetFrameTime();
+                if (spawnTimer >= spawnIntervalo) {
+                    spawnTimer = 0.0f;
+                    
+                    // Posição Y aleatória (evita topo e base)
+                    float posY = (float)GetRandomValue(60, SCREEN_HEIGHT - 100);
+                    // Velocidade X aleatória
+                    float velX = (float)GetRandomValue(150, 300);
+                    
+                    Vector2 pos, vel;
+                    
+                    if (GetRandomValue(0, 1) == 0) {
+                        // Nasce na Esquerda
+                        pos = (Vector2){ -balaWidth, posY }; // Fora da tela
+                        vel = (Vector2){ velX, 0 }; // Move para direita
+                    } else {
+                        // Nasce na Direita
+                        pos = (Vector2){ (float)SCREEN_WIDTH, posY }; // Fora da tela
+                        vel = (Vector2){ -velX, 0 }; // Move para esquerda
+                    }
+                    
+                    Bala *b = criar_bala(pos, vel, 1, balaWidth, balaHeight);
+                    adicionar_bala(&listaBalas, b);
                 }
+                
+                // 4. Checar Colisão (Soldado vs Balas)
+                Bala *b = listaBalas.head;
+                while (b) {
+                    Bala *prox = b->proxima; // Salva o próximo (importante!)
+                    
+                    // A "mágica" da Raylib
+                    if (CheckCollisionRecs(jogador->colisao, b->colisao)) {
+                        aplicar_dano_soldado(jogador, b->dano);
+                        remover_bala(&listaBalas, b); // Remove a bala que colidiu
+                        
+                        if (jogador->vida <= 0) {
+                            estadoAtual = TELA_FIM;
+                        }
+                    }
+                    b = prox; // Vai para o próximo (seguro)
+                }
+
+                // 5. Checar Vitória (Soldado vs Abrigo)
+                if (checar_vitoria_mapa(mapa, jogador->colisao)) {
+                    // (Aqui você salvaria o recorde 'tempoDeJogo')
+                    estadoAtual = TELA_FIM;
+                }
+                
+                // 6. Atualizar timer
+                tempoDeJogo += GetFrameTime();
+
+                // --- DESENHO DO JOGO ---
+                BeginDrawing();
+                ClearBackground(BLACK);
+                
+                desenhar_mapa(mapa);        // Desenha a imagem de fundo
+                desenhar_soldado(jogador);  // Desenha o soldado (textura)
+                desenhar_balas(&listaBalas, texturaBala); // Desenha todas as balas (textura)
+                
+                // HUD (Interface)
+                DrawText(TextFormat("VIDA: %d", jogador->vida), 10, SCREEN_HEIGHT - 30, 20, RED);
+                DrawText(TextFormat("TEMPO: %.1f", tempoDeJogo), SCREEN_WIDTH - 150, SCREEN_HEIGHT - 30, 20, WHITE);
+                
+                EndDrawing();
             }
+            break;
 
-            // Soldado (usando offset)
-            float sx = offset_x + jogador.coluna * tam_cel + tam_cel / 2.0f;
-            float sy = offset_y + jogador.linha * tam_cel + tam_cel / 2.0f;
-            DrawCircleV((Vector2){sx, sy}, tam_cel * 0.45f, GREEN);
-
-            // Desenhar balas levando offset em conta
-            Bala *bb = lista.head;
-            while (bb) {
-                float bx = offset_x + bb->coluna * tam_cel + tam_cel / 2.0f;
-                float by = offset_y + bb->linha * tam_cel + tam_cel / 2.0f;
-                DrawCircleV((Vector2){bx, by}, tam_cel * 0.25f, RED);
-                bb = bb->proxima;
-            }
-
-            // HUD
-            DrawText("The Last Man", 10, 10, 24, RAYWHITE);
-            DrawText(TextFormat("Vida: %d", jogador.vida), 10, 40, 20, RED);
-        }
-
-        EndDrawing();
-    }
-
-    // cleanup
-    liberar_lista_balas(&lista);
-    liberar_mapa(mapa);
-    CloseWindow();
-    return 0;
-}
-
+            // ==========================================
+            // TELA_FIM (Game Over ou Vitória)
+            // ==========================================
+            case TELA_FIM:
+            {
+                // --- LÓGICA DO FIM ---
+                if (IsKeyPressed(KEY_ENTER)) {
+                    estadoAtual = TELA_MENU;
+                }
+                
+                // --- DESENHO DO FIM ---
+                BeginDrawing();
+                // (Opcional) Desenha a última tela do jogo por trás
+                desenhar_mapa(mapa);
+                desenhar_soldado(jogador);
+                // Escurece a tela
+                DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Fade(BLACK, 0.7f));
+                
+                const char* textoFim;
+                if (jogador->vida <= 0) {
+                    textoFim = "VOCÊ MORREU";
+                } else {
+                    textoFim = "MISSÃO CUMPRIDA";
+                    DrawText(TextFormat("Seu tempo: %.2f segundos", tempoDeJogo), SCREEN_WIDTH / 2 - MeasureText(TextFormat("Seu tempo: %.2f segundos",
