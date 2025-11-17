@@ -1,22 +1,24 @@
+// ===================================================
+// ARQUIVO: balasRL.h (NOVO)
+// ===================================================
 #ifndef BALAS_RL_H
 #define BALAS_RL_H
 
-#include "mapaRL.h"
+#include "raylib.h" // A BASE AGORA É RAYLIB
 
 // ----------------------------------------------------
-// STRUCT DA BALA
+// STRUCT DA BALA (Versão Raylib)
 // ----------------------------------------------------
 typedef struct Bala {
-    float linha;
-    float coluna;
-    float velLinha;
-    float velColuna;
+    Vector2 posicao;    // Posição x, y em pixels
+    Vector2 velocidade; // Velocidade x, y em pixels/segundo
     int dano;
+    Rectangle colisao;  // Hitbox da bala
     struct Bala *proxima;
 } Bala;
 
 // ----------------------------------------------------
-// LISTA DE BALAS
+// LISTA DE BALAS (Não muda)
 // ----------------------------------------------------
 typedef struct {
     Bala *head;
@@ -24,21 +26,23 @@ typedef struct {
 } ListaBalas;
 
 // ----------------------------------------------------
-// FUNÇÕES PRINCIPAIS
+// FUNÇÕES PRINCIPAIS (Assinaturas atualizadas)
 // ----------------------------------------------------
-Bala *criar_bala(float l, float c, float velL, float velC, int dano);
+
+// Agora recebe Vector2 e as dimensões da bala para o hitbox
+Bala *criar_bala(Vector2 pos, Vector2 vel, int dano, float width, float height);
 
 void inicio_lista_balas(ListaBalas *lista);
-
 void adicionar_bala(ListaBalas *lista, Bala *b);
+void remover_bala(ListaBalas *lista, Bala *alvo); // Não muda
 
-void remover_bala(ListaBalas *lista, Bala *alvo);
+// Agora recebe as dimensões da tela para saber quando sair
+void atualizar_balas(ListaBalas *lista, int screenWidth, int screenHeight);
 
-void atualizar_balas(ListaBalas *lista, Mapa *mapa);
+// Agora recebe a Textura da bala para desenhar
+void desenhar_balas(ListaBalas *lista, Texture2D texturaBala);
 
-void desenhar_balas(ListaBalas *lista, int tamanho_celula);
-
-// libertar toda a lista
+// Não muda
 void liberar_lista_balas(ListaBalas *lista);
 
 #endif
