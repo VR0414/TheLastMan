@@ -1,35 +1,33 @@
+// ===================================================
+// ARQUIVO: mapaRL.h (NOVO)
+// ===================================================
 #ifndef MAPA_RL_H
 #define MAPA_RL_H
 
-#define MAPA_LINHAS 24
-#define MAPA_COLUNAS 80
+#include "raylib.h"
 
-// Caracteres padrão
-#define CEL_PAREDE '#'
-#define CEL_CHAO   '.'
-#define CEL_ABRIGO '='
-
+// ----------------------------------------------------
+// STRUCT DO MAPA (Versão Raylib)
+// ----------------------------------------------------
 typedef struct Mapa {
-    int linhas;
-    int colunas;
-    char abrigo;      // símbolo do abrigo
-    char parede;      // símbolo da parede
-    char vazio;       // símbolo do chão/solo
-    char *celulas;    // grade 2D armazenada em vetor linear
+    Texture2D texturaFundo; // A imagem do "campo de batalha"
+    Rectangle areaDeVitoria; // O "abrigo seguro" no topo
 } Mapa;
 
-Mapa *criar_mapa(int linhas, int colunas, char abrigo, char parede, char vazio);
+// ----------------------------------------------------
+// FUNÇÕES PRINCIPAIS (Assinaturas atualizadas)
+// ----------------------------------------------------
+
+// Criação: Carrega a imagem de fundo e define a zona de vitória
+Mapa *criar_mapa(const char *texturaFundoPath, Rectangle areaDeVitoria);
+
+// Liberação: Descarrega a textura
 void liberar_mapa(Mapa *mapa);
 
-// Construção
-int preencher_limites(Mapa *mapa);
-void preencher_chao(Mapa *mapa);
-void preencher_abrigo(Mapa *mapa);
+// Desenho: Apenas desenha a imagem de fundo
+void desenhar_mapa(Mapa *mapa);
 
-// Utilidades
-void imprimir_mapa(Mapa *mapa);
-
-// Raylib
-void desenhar_mapa(Mapa *mapa, int tamanho_celula);
+// Checagem: Verifica se o soldado chegou no abrigo
+int checar_vitoria_mapa(Mapa *mapa, Rectangle colisaoSoldado);
 
 #endif
