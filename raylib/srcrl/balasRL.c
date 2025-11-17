@@ -1,3 +1,4 @@
+#include <raylib.h>
 #include "balasRL.h"
 #include <stdlib.h>
 #include <math.h>
