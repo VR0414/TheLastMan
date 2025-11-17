@@ -3,61 +3,66 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Mapa *criar_mapa(int linhas, int colunas, char abrigo) {
+static inline char mapa_get(Mapa *mapa, int l, int c) {
+    return mapa->celulas[l * mapa->colunas + c];
+}
+
+static inline void mapa_set(Mapa *mapa, int l, int c, char v) {
+    mapa->celulas[l * mapa->colunas + c] = v;
+}
+
+Mapa *criar_mapa(int linhas, int colunas, char abrigo, char parede, char vazio) {
     if (linhas <= 0 || colunas <= 0) return NULL;
 
-    Mapa *mapa = (Mapa *)malloc(sizeof(Mapa));
+    Mapa *mapa = malloc(sizeof(Mapa));
     if (!mapa) return NULL;
 
     mapa->linhas = linhas;
     mapa->colunas = colunas;
     mapa->abrigo = abrigo;
+    mapa->parede = parede;
+    mapa->vazio = vazio;
 
-    mapa->celulas = (char *)calloc((size_t)linhas * (size_t)colunas, sizeof(char));
+    int total = linhas * colunas;
+    mapa->celulas = malloc((size_t)total * sizeof(char));
     if (!mapa->celulas) {
         free(mapa);
         return NULL;
     }
 
-    for (int i = 0; i < linhas * colunas; i++)
-        mapa->celulas[i] = ' ';
-
+    for (int i = 0; i < total; i++) mapa->celulas[i] = vazio;
     return mapa;
 }
 
 void liberar_mapa(Mapa *mapa) {
     if (!mapa) return;
-    if (mapa->celulas){
-         free(mapa->celulas);
-            free(mapa);
-                        }       
+    free(mapa->celulas);
+    free(mapa);
 }
 
-int preencher_limites(Mapa *mapa, char parede) {
+int preencher_limites(Mapa *mapa) {
     if (!mapa || !mapa->celulas) return -1;
-
     for (int c = 0; c < mapa->colunas; c++) {
-        mapa->celulas[c] = parede;
-        mapa->celulas[(mapa->linhas - 1) * mapa->colunas + c] = parede;
+        mapa_set(mapa, 0, c, mapa->parede);
+        mapa_set(mapa, mapa->linhas - 1, c, mapa->parede);
     }
     for (int l = 0; l < mapa->linhas; l++) {
-        mapa->celulas[l * mapa->colunas] = parede;
-        mapa->celulas[l * mapa->colunas + mapa->colunas - 1] = parede;
+        mapa_set(mapa, l, 0, mapa->parede);
+        mapa_set(mapa, l, mapa->colunas - 1, mapa->parede);
     }
     return 0;
 }
 
-void preencher_chao(Mapa *mapa, char vazio, char parede, char abrigo) {
+void preencher_chao(Mapa *mapa) {
     if (!mapa || !mapa->celulas) return;
-
     int total = mapa->linhas * mapa->colunas;
     for (int i = 0; i < total; i++) {
-        if (mapa->celulas[i] != parede && mapa->celulas[i] != abrigo)
-            mapa->celulas[i] = vazio;
+        if (mapa->celulas[i] != mapa->parede && mapa->celulas[i] != mapa->abrigo)
+            mapa->celulas[i] = mapa->vazio;
     }
 }
 
-void preencher_abrigo(Mapa *mapa, char abrigo) {
+void preencher_abrigo(Mapa *mapa) {
     if (!mapa || !mapa->celulas) return;
     if (mapa->linhas <= 1 || mapa->colunas <= 2) return;
 
@@ -72,30 +77,31 @@ void preencher_abrigo(Mapa *mapa, char abrigo) {
 
     int linha = mapa->linhas - 2;
     for (int c = inicio; c < fim; c++)
-        mapa->celulas[linha * mapa->colunas + c] = abrigo;
+        mapa_set(mapa, linha, c, mapa->abrigo);
 }
 
 void imprimir_mapa(Mapa *mapa) {
     if (!mapa || !mapa->celulas) return;
     for (int l = 0; l < mapa->linhas; l++) {
         for (int c = 0; c < mapa->colunas; c++)
-            putchar(mapa->celulas[l * mapa->colunas + c]);
+            putchar(mapa_get(mapa, l, c));
         putchar('\n');
     }
 }
 
-void desenhar_mapa(Mapa *mapa, int tamanho_celula) {
+void desenhar_mapa(Mapa *mapa, int tam) {
+    if (!mapa) return;
     for (int l = 0; l < mapa->linhas; l++) {
         for (int c = 0; c < mapa->colunas; c++) {
-            char cel = mapa->celulas[l * mapa->colunas + c];
-            Color cor;
+            char cel = mapa_get(mapa, l, c);
+            Color cor = WHITE;
 
-            if (cel == '#') cor = DARKGRAY;
-            else if (cel == '=') cor = ORANGE;
-            else if (cel == '.') cor = BEIGE;
-            else cor = WHITE;
+            if (cel == mapa->parede) cor = DARKGRAY;
+            else if (cel == mapa->abrigo) cor = ORANGE;
+            else if (cel == mapa->vazio) cor = BEIGE;
 
-            DrawRectangle(c * tamanho_celula, l * tamanho_celula, tamanho_celula, tamanho_celula, cor);
+            DrawRectangle(c * tam, l * tam, tam, tam, cor);
         }
     }
 }
+
