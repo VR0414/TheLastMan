@@ -12,11 +12,21 @@ typedef enum {
 } EstadoJogo;
 
 int main(void) {
-    const int SCREEN_WIDTH = GetMonitorWidth(0);
-    const int SCREEN_HEIGHT = GetMonitorHeight(0);
+    
+    // --- MUDANÇA AQUI ---
+    // Em vez de tela cheia, vamos usar uma janela 16:9
+    const int SCREEN_WIDTH = 1280;
+    const int SCREEN_HEIGHT = 720;
 
+    // Inicializa a janela (sem tela cheia)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "The Last Man - Edição Raylib");
-    ToggleFullscreen();
+    
+    // --- CORREÇÃO PARA CENTRALIZAR A JANELA ---
+    int monitorWidth = GetMonitorWidth(0);
+    int monitorHeight = GetMonitorHeight(0);
+    SetWindowPosition((monitorWidth - SCREEN_WIDTH) / 2, (monitorHeight - SCREEN_HEIGHT) / 2);
+    // --- FIM DA CORREÇÃO ---
+
     SetTargetFPS(60);
 
     EstadoJogo estadoAtual = TELA_MENU;
@@ -30,6 +40,7 @@ int main(void) {
     UnloadImage(imgBala);
 
     Rectangle areaVitoria = { 0, 0, SCREEN_WIDTH, 50 };
+    // Passa o novo SCREEN_WIDTH e SCREEN_HEIGHT para o mapa
     Mapa *mapa = criar_mapa("resources/campo.png", areaVitoria, SCREEN_WIDTH, SCREEN_HEIGHT);
     if (!mapa) { return 1; }
 
@@ -62,13 +73,20 @@ int main(void) {
                 }
             
                 BeginDrawing();
-                ClearBackground(BLACK);
-                DrawText("THE LAST MAN", SCREEN_WIDTH / 2 - MeasureText("THE LAST MAN", 40) / 2, SCREEN_HEIGHT / 3, 40, WHITE);
-                DrawText("Pressione ENTER para começar", SCREEN_WIDTH / 2 - MeasureText("Pressione ENTER para começar", 20) / 2, SCREEN_HEIGHT / 2, 20, GRAY);
-                DrawText("W, A, S, D para mover", SCREEN_WIDTH / 2 - MeasureText("W, A, S, D para mover", 20) / 2, SCREEN_HEIGHT / 2 + 30, 20, GRAY);
+                
+                // --- MUDANÇA AQUI ---
+                // Fundo cinza escuro em vez de preto e texto maior
+                ClearBackground(DARKGRAY);
+                DrawText("THE LAST MAN", SCREEN_WIDTH / 2 - MeasureText("THE LAST MAN", 50) / 2, SCREEN_HEIGHT / 3, 50, WHITE);
+                DrawText("Pressione ENTER para começar", SCREEN_WIDTH / 2 - MeasureText("Pressione ENTER para começar", 30) / 2, SCREEN_HEIGHT / 2, 30, WHITE);
+                DrawText("W, A, S, D para mover", SCREEN_WIDTH / 2 - MeasureText("W, A, S, D para mover", 20) / 2, SCREEN_HEIGHT / 2 + 50, 20, WHITE);
+                // --- FIM DA MUDANÇA ---
+                
                 EndDrawing();
             }
             break;
+            
+            // O resto do código (TELA_JOGO, TELA_FIM) continua idêntico
             
             case TELA_JOGO:
             {
