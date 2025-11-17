@@ -1,5 +1,5 @@
 // ===================================================
-// ARQUIVO: mainRL.c (NOVO E COMPLETO)
+// ARQUIVO: mainRL.c (COMPLETO E CORRIGIDO)
 // ===================================================
 
 #include "raylib.h"
@@ -210,4 +210,25 @@ int main(void) {
                     textoFim = "VOCÊ MORREU";
                 } else {
                     textoFim = "MISSÃO CUMPRIDA";
-                    DrawText(TextFormat("Seu tempo: %.2f segundos", tempoDeJogo), SCREEN_WIDTH / 2 - MeasureText(TextFormat("Seu tempo: %.2f segundos",
+                    // Esta é a linha que estava quebrada (AGORA CORRIGIDA)
+                    DrawText(TextFormat("Seu tempo: %.2f segundos", tempoDeJogo), SCREEN_WIDTH / 2 - MeasureText(TextFormat("Seu tempo: %.2f segundos", tempoDeJogo), 20) / 2, SCREEN_HEIGHT / 2, 20, WHITE);
+                }
+                
+                DrawText(textoFim, SCREEN_WIDTH / 2 - MeasureText(textoFim, 40) / 2, SCREEN_HEIGHT / 3, 40, WHITE);
+                DrawText("Pressione ENTER para voltar ao Menu", SCREEN_WIDTH / 2 - MeasureText("Pressione ENTER para voltar ao Menu", 20) / 2, SCREEN_HEIGHT / 2 + 40, 20, GRAY);
+                
+                EndDrawing();
+            }
+            break;
+        }
+    }
+
+    // --- LIMPEZA (Muito importante) ---
+    liberar_mapa(mapa);
+    liberar_soldado(jogador);
+    liberar_lista_balas(&listaBalas);
+    UnloadTexture(texturaBala);
+    
+    CloseWindow();
+    return 0;
+}
