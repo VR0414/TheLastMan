@@ -1,14 +1,15 @@
-// ===================================================
-// ARQUIVO: mapaRL.c
-// ===================================================
 #include "mapaRL.h"
 #include <stdlib.h>
 
-Mapa *criar_mapa(const char *texturaFundoPath, Rectangle areaDeVitoria) {
+Mapa *criar_mapa(const char *texturaFundoPath, Rectangle areaDeVitoria, int screenW, int screenH) {
     Mapa *mapa = malloc(sizeof(Mapa));
     if (!mapa) return NULL;
 
-    mapa->texturaFundo = LoadTexture(texturaFundoPath);
+    Image img = LoadImage(texturaFundoPath);
+    ImageResize(&img, screenW, screenH);
+    mapa->texturaFundo = LoadTextureFromImage(img);
+    UnloadImage(img);
+    
     mapa->areaDeVitoria = areaDeVitoria;
     
     return mapa;
