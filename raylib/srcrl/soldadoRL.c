@@ -1,6 +1,3 @@
-// ===================================================
-// ARQUIVO: soldadoRL.c (Com Hitbox Ativado)
-// ===================================================
 #include "soldadoRL.h"
 #include <stdlib.h>
 
@@ -12,8 +9,12 @@ Soldado *criar_soldado(Vector2 pos, int vida, float vel, float width, float heig
     s->posInicial = pos;
     s->vida = vida;
     s->velocidade = vel;
-    s->textura = LoadTexture(texturaPath);
     s->colisao = (Rectangle){ pos.x, pos.y, width, height };
+
+    Image img = LoadImage(texturaPath);
+    ImageResize(&img, (int)width, (int)height);
+    s->textura = LoadTextureFromImage(img);
+    UnloadImage(img);
     
     return s;
 }
@@ -56,9 +57,6 @@ void desenhar_soldado(Soldado *s) {
     if (!s) return;
     
     DrawTextureV(s->textura, s->posicao, WHITE);
-    
-    // --- HITBOX LIGADO PARA DIAGNÓSTICO ---
-    DrawRectangleLinesEx(s->colisao, 2, GREEN);
 }
 
 void reset_posicao_soldado(Soldado *s) {
