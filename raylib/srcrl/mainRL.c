@@ -19,15 +19,18 @@ typedef enum {
 } EstadoJogo;
 
 // ----------------------------------------------------
-// DIMENSÕES (Tela Cheia)
+// (As variáveis de dimensão foram movidas para dentro do 'main')
 // ----------------------------------------------------
-const int SCREEN_WIDTH = GetMonitorWidth(0);
-const int SCREEN_HEIGHT = GetMonitorHeight(0);
 
 // ----------------------------------------------------
 // MAIN
 // ----------------------------------------------------
 int main(void) {
+    // --- DIMENSÕES (Tela Cheia) ---
+    // ESTE É O LUGAR CORRETO PARA ESTAS LINHAS
+    const int SCREEN_WIDTH = GetMonitorWidth(0);
+    const int SCREEN_HEIGHT = GetMonitorHeight(0);
+
     // --- INICIALIZAÇÃO DA JANELA ---
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "The Last Man - Edição Raylib");
     ToggleFullscreen(); // <-- ATIVA TELA CHEIA
@@ -168,7 +171,6 @@ int main(void) {
                     textoFim = "VOCÊ MORREU";
                 } else {
                     textoFim = "MISSÃO CUMPRIDA";
-                    // Esta é a linha que estava quebrada (AGORA CORRIGIDA)
                     DrawText(TextFormat("Seu tempo: %.2f segundos", tempoDeJogo), SCREEN_WIDTH / 2 - MeasureText(TextFormat("Seu tempo: %.2f segundos", tempoDeJogo), 20) / 2, SCREEN_HEIGHT / 2, 20, WHITE);
                 }
                 
