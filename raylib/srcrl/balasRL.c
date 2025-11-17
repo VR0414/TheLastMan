@@ -1,26 +1,32 @@
-#include <raylib.h>
 #include "balasRL.h"
-#include <stdlib.h>
-#include <math.h>
+#include <stdlib.h> // Para malloc/free
 
-Bala *criar_bala(float l, float c, float velL, float velC, int dano) {
+// --- criar_bala ---
+// Agora usa Vector2 e recebe as dimensões do hitbox
+Bala *criar_bala(Vector2 pos, Vector2 vel, int dano, float width, float height) {
     Bala *b = malloc(sizeof(Bala));
     if (!b) return NULL;
-    b->linha = l;
-    b->coluna = c;
-    b->velLinha = velL;
-    b->velColuna = velC;
+    
+    b->posicao = pos;
+    b->velocidade = vel;
     b->dano = dano;
+    // O hitbox é criado na posição inicial
+    b->colisao = (Rectangle){ pos.x, pos.y, width, height };
     b->proxima = NULL;
+    
     return b;
 }
 
+// --- inicio_lista_balas ---
+// (Sem mudanças)
 void inicio_lista_balas(ListaBalas *lista) {
     if (!lista) return;
     lista->head = NULL;
     lista->quantidade = 0;
 }
 
+// --- adicionar_bala ---
+// (Sem mudanças)
 void adicionar_bala(ListaBalas *lista, Bala *b) {
     if (!lista || !b) return;
     b->proxima = lista->head;
@@ -28,6 +34,8 @@ void adicionar_bala(ListaBalas *lista, Bala *b) {
     lista->quantidade++;
 }
 
+// --- remover_bala ---
+// (Sem mudanças)
 void remover_bala(ListaBalas *lista, Bala *alvo) {
     if (!lista || !alvo) return;
     Bala *atual = lista->head, *anterior = NULL;
@@ -35,6 +43,7 @@ void remover_bala(ListaBalas *lista, Bala *alvo) {
         if (atual == alvo) {
             if (anterior) anterior->proxima = atual->proxima;
             else lista->head = atual->proxima;
+            
             free(atual);
             lista->quantidade--;
             return;
@@ -44,57 +53,65 @@ void remover_bala(ListaBalas *lista, Bala *alvo) {
     }
 }
 
-static inline char mapa_get_safe(Mapa *mapa, int l, int c) {
-    return mapa->celulas[l * mapa->colunas + c];
-}
-
-void atualizar_balas(ListaBalas *lista, Mapa *mapa) {
-    if (!lista || !mapa) return;
+// --- atualizar_balas ---
+// Lógica 100% pixel. Não precisa mais do Mapa!
+// Usa GetFrameTime() para movimento suave e independente de FPS.
+void atualizar_balas(ListaBalas *lista, int screenWidth, int screenHeight) {
+    if (!lista) return;
+    
+    // Pega o tempo que o último frame demorou (ex: 0.016s)
+    float dt = GetFrameTime(); 
+    
     Bala *atual = lista->head;
     while (atual) {
-        Bala *prox = atual->proxima;
+        Bala *prox = atual->proxima; // Guarda o próximo antes de possivelmente remover o atual
 
-        float novaL = atual->linha + atual->velLinha;
-        float novaC = atual->coluna + atual->velColuna;
+        // --- Movimento ---
+        // (Posição = Posição + Velocidade * Tempo)
+        atual->posicao.x += atual->velocidade.x * dt;
+        atual->posicao.y += atual->velocidade.y * dt;
 
-        int lin = (int)floorf(novaL);
-        int col = (int)floorf(novaC);
+        // --- Atualizar Hitbox ---
+        // O hitbox segue a posição da bala
+        atual->colisao.x = atual->posicao.x;
+        atual->colisao.y = atual->posicao.y;
 
-        // Fora do mapa -> remover
-        if (lin < 0 || col < 0 || lin >= mapa->linhas || col >= mapa->colunas) {
+        // --- Verificação de Limites ---
+        // Se a bala saiu da tela (com uma margem), ela é removida.
+        // Não checamos mais colisão com "paredes" aqui.
+        if (atual->posicao.x < -100 || // Deixe 100 pixels de margem
+            atual->posicao.x > screenWidth + 100 ||
+            atual->posicao.y < -100 ||
+            atual->posicao.y > screenHeight + 100)
+        {
             remover_bala(lista, atual);
             atual = prox;
-            continue;
+            continue; // Pula para a próxima bala
         }
 
-        // Colisões com parede/abrigo -> remover
-        char cel = mapa_get_safe(mapa, lin, col);
-        if (cel == mapa->parede || cel == mapa->abrigo) {
-            remover_bala(lista, atual);
-            atual = prox;
-            continue;
-        }
-
-        // Movimento permitido
-        atual->linha = novaL;
-        atual->coluna = novaC;
-
-        atual = prox;
+        atual = prox; // Avança para a próxima bala
     }
 }
 
-void desenhar_balas(ListaBalas *lista, int tamanho_celula) {
+// --- desenhar_balas ---
+// Agora desenha a textura na posição exata da bala.
+void desenhar_balas(ListaBalas *lista, Texture2D texturaBala) {
     if (!lista) return;
+    
     Bala *b = lista->head;
     while (b) {
-        float x = b->coluna * tamanho_celula + tamanho_celula / 2.0f;
-        float y = b->linha * tamanho_celula + tamanho_celula / 2.0f;
-        float raio = tamanho_celula / 3.0f;
-        DrawCircleV((Vector2){ x, y }, raio, RED);
+        // Desenha a textura na posição (x, y) da bala
+        DrawTextureV(texturaBala, b->posicao, WHITE);
+        
+        // (Opcional: descomente para ver os hitboxes)
+        // DrawRectangleLinesEx(b->colisao, 1, RED);
+        
         b = b->proxima;
     }
 }
 
+// --- liberar_lista_balas ---
+// (Sem mudanças)
 void liberar_lista_balas(ListaBalas *lista) {
     if (!lista) return;
     Bala *b = lista->head;
@@ -106,4 +123,3 @@ void liberar_lista_balas(ListaBalas *lista) {
     lista->head = NULL;
     lista->quantidade = 0;
 }
-
