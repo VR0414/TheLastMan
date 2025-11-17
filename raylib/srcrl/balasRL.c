@@ -1,6 +1,3 @@
-// ===================================================
-// ARQUIVO: balasRL.c (Com Hitbox Ativado)
-// ===================================================
 #include "balasRL.h"
 #include <stdlib.h> 
 
@@ -82,10 +79,6 @@ void desenhar_balas(ListaBalas *lista, Texture2D texturaBala) {
     Bala *b = lista->head;
     while (b) {
         DrawTextureV(texturaBala, b->posicao, WHITE);
-        
-        // --- HITBOX LIGADO PARA DIAGNÓSTICO ---
-        DrawRectangleLinesEx(b->colisao, 1, RED);
-        
         b = b->proxima;
     }
 }
