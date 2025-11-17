@@ -1,76 +1,52 @@
-// ===================================================
-// ARQUIVO: mainRL.c (COMPLETO E CORRIGIDO)
-// ===================================================
-
 #include "raylib.h"
 #include "../includerl/mapaRL.h"
 #include "../includerl/balasRL.h"
 #include "../includerl/soldadoRL.h"
-#include <stdlib.h> // Para NULL
-#include <stdio.h>  // Para TextFormat
+#include <stdlib.h>
+#include <stdio.h> 
 
-// ----------------------------------------------------
-// ESTADOS DO JOGO
-// ----------------------------------------------------
 typedef enum {
     TELA_MENU,
     TELA_JOGO,
     TELA_FIM
 } EstadoJogo;
 
-// ----------------------------------------------------
-// (As variáveis de dimensão foram movidas para dentro do 'main')
-// ----------------------------------------------------
-
-// ----------------------------------------------------
-// MAIN
-// ----------------------------------------------------
 int main(void) {
-    // --- DIMENSÕES (Tela Cheia) ---
-    // ESTE É O LUGAR CORRETO PARA ESTAS LINHAS
     const int SCREEN_WIDTH = GetMonitorWidth(0);
     const int SCREEN_HEIGHT = GetMonitorHeight(0);
 
-    // --- INICIALIZAÇÃO DA JANELA ---
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "The Last Man - Edição Raylib");
-    ToggleFullscreen(); // <-- ATIVA TELA CHEIA
+    ToggleFullscreen();
     SetTargetFPS(60);
 
-    // --- ESTADO INICIAL ---
     EstadoJogo estadoAtual = TELA_MENU;
 
-    // --- CARREGAR RECURSOS (Texturas) ---
-    // (Lembre-se: as imagens devem estar em "TheLastMan/resources/")
-    Texture2D texturaBala = LoadTexture("resources/bala.png");
+    float balaWidth = 10.0f;
+    float balaHeight = 10.0f;
 
-    // --- CRIAR OBJETOS DO JOGO ---
-    
-    // 1. MAPA
+    Image imgBala = LoadImage("resources/bala.png");
+    ImageResize(&imgBala, (int)balaWidth, (int)balaHeight);
+    Texture2D texturaBala = LoadTextureFromImage(imgBala);
+    UnloadImage(imgBala);
+
     Rectangle areaVitoria = { 0, 0, SCREEN_WIDTH, 50 };
-    Mapa *mapa = criar_mapa("resources/campo.png", areaVitoria);
-    if (!mapa) { /* Erro ao carregar mapa */ }
+    Mapa *mapa = criar_mapa("resources/campo.png", areaVitoria, SCREEN_WIDTH, SCREEN_HEIGHT);
+    if (!mapa) { return 1; }
 
-    // 2. SOLDADO
     Vector2 posInicialSoldado = { SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 60.0f };
-    // !!! AJUSTE O TAMANHO DO HITBOX AQUI !!!
     float soldWidth = 32.0f;
     float soldHeight = 32.0f;
     float soldVel = 250.0f; 
     Soldado *jogador = criar_soldado(posInicialSoldado, 3, soldVel, soldWidth, soldHeight, "resources/soldado.png");
-    if (!jogador) { /* Erro ao carregar jogador */ }
+    if (!jogador) { return 1; }
 
-    // 3. BALAS
     ListaBalas listaBalas;
     inicio_lista_balas(&listaBalas);
-    // !!! AJUSTE O TAMANHO DO HITBOX AQUI !!!
-    float balaWidth = 10.0f;
-    float balaHeight = 10.0f;
     
     float spawnTimer = 0.0f;
     float spawnIntervalo = 0.3f; 
     float tempoDeJogo = 0.0f;
 
-    // --- LOOP PRINCIPAL (Máquina de Estados) ---
     while (!WindowShouldClose()) {
 
         switch (estadoAtual) {
@@ -145,8 +121,11 @@ int main(void) {
                 ClearBackground(BLACK);
                 
                 desenhar_mapa(mapa);
+                
+                BeginBlendMode(BLEND_ALPHA);
                 desenhar_soldado(jogador);
                 desenhar_balas(&listaBalas, texturaBala);
+                EndBlendMode();
                 
                 DrawText(TextFormat("VIDA: %d", jogador->vida), 10, SCREEN_HEIGHT - 30, 20, RED);
                 DrawText(TextFormat("TEMPO: %.1f", tempoDeJogo), SCREEN_WIDTH - 150, SCREEN_HEIGHT - 30, 20, WHITE);
@@ -163,7 +142,11 @@ int main(void) {
                 
                 BeginDrawing();
                 desenhar_mapa(mapa);
+                
+                BeginBlendMode(BLEND_ALPHA);
                 desenhar_soldado(jogador);
+                EndBlendMode();
+
                 DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Fade(BLACK, 0.7f));
                 
                 const char* textoFim;
@@ -183,7 +166,6 @@ int main(void) {
         }
     }
 
-    // --- LIMPEZA ---
     liberar_mapa(mapa);
     liberar_soldado(jogador);
     liberar_lista_balas(&listaBalas);
