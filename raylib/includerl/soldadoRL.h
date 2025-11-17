@@ -1,28 +1,44 @@
+// ===================================================
+// ARQUIVO: soldadoRL.h (NOVO)
+// ===================================================
 #ifndef SOLDADO_RL_H
 #define SOLDADO_RL_H
 
-#include "mapaRL.h"
+#include "raylib.h"
 
+// ----------------------------------------------------
+// STRUCT DO SOLDADO (Versão Raylib)
+// ----------------------------------------------------
 typedef struct Soldado {
-    float linha;     // posição vertical (grade)
-    float coluna;    // posição horizontal (grade)
+    Vector2 posicao;     // Posição x, y em pixels
+    Vector2 posInicial;  // Posição para onde resetar
     int vida;
-    char simbolo;    // usado apenas no modo texto
+    float velocidade;    // Velocidade de movimento (pixels/segundo)
+    Texture2D textura;   // Imagem do soldado
+    Rectangle colisao;   // Hitbox do soldado
 } Soldado;
 
-// Criação / destruição
-Soldado *criar_soldado(float linha, float coluna, int vida, char simbolo);
+// ----------------------------------------------------
+// FUNÇÕES PRINCIPAIS (Assinaturas atualizadas)
+// ----------------------------------------------------
+
+// Criação: Carrega a textura e define o hitbox
+Soldado *criar_soldado(Vector2 pos, int vida, float vel, float width, float height, const char *texturaPath);
+
+// Liberação: Descarrega a textura
 void liberar_soldado(Soldado *s);
 
-// Inicialização/reinício
-void iniciar_soldado(Soldado *s, float linha, float coluna, int vida, char simbolo);
-void reset_posicao_soldado(Soldado *s, float linha, float coluna);
+// Lógica de update: Processa o input (W,A,S,D) e move o soldado
+void atualizar_soldado(Soldado *s, int screenWidth, int screenHeight);
 
-// Movimento com verificação de colisão no mapa
-// retorno 1 = moveu; 0 = bloqueado
-int mover_soldado(Soldado *s, Mapa *mapa, float deslocLinha, float deslocColuna);
+// Desenho: Desenha a textura do soldado
+void desenhar_soldado(Soldado *s);
 
-// Dano + reset após ser atingido (não reseta aqui se não quiser)
-int aplicar_dano_soldado(Soldado *s, int dano, float inicioLinha, float inicioColuna);
+// Reseta o soldado para a posição inicial
+void reset_posicao_soldado(Soldado *s);
+
+// Aplica dano e reseta a posição
+int aplicar_dano_soldado(Soldado *s, int dano);
+
 
 #endif
