@@ -1,9 +1,10 @@
 #include "scoresRL.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 Score* carregar_scores(const char *arquivo) {
     FILE *f = fopen(arquivo, "r");
-    if (!f) return NULL; // Se não existir, começa vazio
+    if (!f) return NULL;
 
     Score *lista = NULL;
     float t;
@@ -15,18 +16,23 @@ Score* carregar_scores(const char *arquivo) {
     fclose(f);
     return lista;
 }
+
 void salvar_scores(const char *arquivo, Score *lista) {
     FILE *f = fopen(arquivo, "w");
     if (!f) return;
 
     Score *atual = lista;
-    while (atual) {
+
+    int count = 0;
+    while (atual && count < 3) {   // salva só os 3 melhores
         fprintf(f, "%.2f\n", atual->tempo);
-        atual = atual->proximo;
+        atual = atual->prox;       // <<< CORRETO
+        count++;
     }
 
     fclose(f);
 }
+
 void adicionar_score_ordenado(Score **lista, float tempo) {
     Score *novo = malloc(sizeof(Score));
     novo->tempo = tempo;
@@ -47,6 +53,7 @@ void adicionar_score_ordenado(Score **lista, float tempo) {
     novo->prox = atual->prox;
     atual->prox = novo;
 }
+
 void liberar_scores(Score *lista) {
     while (lista) {
         Score *tmp = lista;
@@ -54,9 +61,11 @@ void liberar_scores(Score *lista) {
         free(tmp);
     }
 }
+
 void imprimir_scores(Score *lista) {
     Score *atual = lista;
     int posicao = 1;
+
     while (atual) {
         printf("%d. %.2f segundos\n", posicao, atual->tempo);
         atual = atual->prox;
