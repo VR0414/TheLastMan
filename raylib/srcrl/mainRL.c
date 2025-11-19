@@ -2,6 +2,7 @@
 #include "../includerl/mapaRL.h"
 #include "../includerl/balasRL.h"
 #include "../includerl/soldadoRL.h"
+#include "../includerl/scoresRL.h"
 #include <stdlib.h>
 #include <stdio.h> 
 
@@ -56,7 +57,7 @@ int main(void) {
     float spawnTimer = 0.0f;
     float spawnIntervalo = 0.4f; 
     float tempoDeJogo = 0.0f;
-
+    Score *topScores = NULL;  
     while (!WindowShouldClose()) {
 
         switch (estadoAtual) {
