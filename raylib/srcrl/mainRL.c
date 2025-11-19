@@ -15,6 +15,7 @@ int main(void) {
     const int SCREEN_WIDTH = 1280;
     const int SCREEN_HEIGHT = 720;
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "The Last Man");
     
     int monitorW = GetMonitorWidth(0);
