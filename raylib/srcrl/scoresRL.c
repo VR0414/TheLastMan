@@ -47,3 +47,19 @@ void adicionar_score_ordenado(Score **lista, float tempo) {
     novo->prox = atual->prox;
     atual->prox = novo;
 }
+void liberar_scores(Score *lista) {
+    while (lista) {
+        Score *tmp = lista;
+        lista = lista->prox;
+        free(tmp);
+    }
+}
+void imprimir_scores(Score *lista) {
+    Score *atual = lista;
+    int posicao = 1;
+    while (atual) {
+        printf("%d. %.2f segundos\n", posicao, atual->tempo);
+        atual = atual->prox;
+        posicao++;
+    }
+}
