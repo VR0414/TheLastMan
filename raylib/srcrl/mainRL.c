@@ -167,6 +167,13 @@ int main(void) {
                     DrawText("MISSÃO CUMPRIDA!", SCREEN_WIDTH/2 - MeasureText("MISSÃO CUMPRIDA!", 50)/2, SCREEN_HEIGHT/3, 50, GREEN);
                     DrawText(TextFormat("Tempo: %.2f segundos", tempoDeJogo), SCREEN_WIDTH/2 - MeasureText(TextFormat("Tempo: %.2f segundos", tempoDeJogo), 30)/2, SCREEN_HEIGHT/2, 30, WHITE);
                 }
+                if (topScores) {
+                DrawText(
+                    TextFormat("Recorde: %.2f segundos", topScores->tempo),
+                    SCREEN_WIDTH/2 - MeasureText(TextFormat("Recorde: %.2f segundos", topScores->tempo), 25)/2,
+                    SCREEN_HEIGHT/2 + 50,
+                    25,
+                    YELLOW);}
                 DrawText("[ ENTER ] Voltar ao Menu", SCREEN_WIDTH/2 - MeasureText("[ ENTER ] Voltar ao Menu", 20)/2, SCREEN_HEIGHT - 100, 20, LIGHTGRAY);
                 EndDrawing();
             }
@@ -179,7 +186,7 @@ int main(void) {
     liberar_lista_balas(&listaBalas);
     UnloadTexture(texturaBala);
     UnloadTexture(texturaMenu);
-    
+    liberar_scores(topScores);
     CloseWindow();
     return 0;
 }
