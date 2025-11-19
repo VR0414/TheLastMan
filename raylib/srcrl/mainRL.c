@@ -45,7 +45,7 @@ int main(void) {
     Vector2 posInicial = { SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 80.0f };
     float soldW = 40.0f;
     float soldH = 40.0f;
-    float soldVel = 150.0f; 
+    float soldVel = 100.0f; 
     
     Soldado *jogador = criar_soldado(posInicial, 3, soldVel, soldW, soldH, "resources/soldado.png");
     if (!jogador) return 1;
