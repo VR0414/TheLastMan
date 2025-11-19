@@ -3,9 +3,17 @@
 
 #include "raylib.h"
 
+#define MAPA_LINHAS 10
+#define MAPA_COLUNAS 16
+
 typedef struct Mapa {
     Texture2D texturaFundo;
     Rectangle areaDeVitoria;
+    
+    int grade[MAPA_LINHAS][MAPA_COLUNAS]; 
+    
+    float tileWidth;
+    float tileHeight;
 } Mapa;
 
 Mapa *criar_mapa(const char *texturaFundoPath, Rectangle areaDeVitoria, int screenW, int screenH);
