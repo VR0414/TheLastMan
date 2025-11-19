@@ -31,8 +31,8 @@ int main(void) {
     Texture2D texturaMenu = LoadTextureFromImage(imgMenu);
     UnloadImage(imgMenu);
 
-    float balaWidth = 30.0f;
-    float balaHeight = 30.0f;
+    float balaWidth = 46.0f;
+    float balaHeight = 46.0f;
     Image imgBala = LoadImage("resources/bala.png");
     ImageResize(&imgBala, (int)balaWidth, (int)balaHeight);
     Texture2D texturaBala = LoadTextureFromImage(imgBala);
@@ -43,9 +43,9 @@ int main(void) {
     if (!mapa) return 1;
 
     Vector2 posInicial = { SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 80.0f };
-    float soldW = 40.0f;
-    float soldH = 40.0f;
-    float soldVel = 100.0f; 
+    float soldW = 70.0f;
+    float soldH = 70.0f;
+    float soldVel = 75.0f;
     
     Soldado *jogador = criar_soldado(posInicial, 3, soldVel, soldW, soldH, "resources/soldado.png");
     if (!jogador) return 1;
