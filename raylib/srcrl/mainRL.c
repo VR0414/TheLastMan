@@ -33,7 +33,7 @@ int main(void) {
     UnloadImage(imgMenu);
 
     float balaWidth = 46.0f;
-    float balaHeight = 46.0f;
+    float balaHeight = 11.0f;
     Image imgBala = LoadImage("resources/bala.png");
     ImageResize(&imgBala, (int)balaWidth, (int)balaHeight);
     Texture2D texturaBala = LoadTextureFromImage(imgBala);
