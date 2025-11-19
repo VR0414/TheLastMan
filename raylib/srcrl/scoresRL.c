@@ -27,3 +27,23 @@ void salvar_scores(const char *arquivo, Score *lista) {
 
     fclose(f);
 }
+void adicionar_score_ordenado(Score **lista, float tempo) {
+    Score *novo = malloc(sizeof(Score));
+    novo->tempo = tempo;
+    novo->prox = NULL;
+
+    if (*lista == NULL || tempo < (*lista)->tempo) {
+        novo->prox = *lista;
+        *lista = novo;
+        return;
+    }
+
+    Score *atual = *lista;
+
+    while (atual->prox && atual->prox->tempo < tempo) {
+        atual = atual->prox;
+    }
+
+    novo->prox = atual->prox;
+    atual->prox = novo;
+}
