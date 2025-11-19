@@ -58,6 +58,8 @@ int main(void) {
     float spawnIntervalo = 0.4f; 
     float tempoDeJogo = 0.0f;
     Score *topScores = NULL;  
+    topScores = carregar_scores("scores.txt");
+    
     while (!WindowShouldClose()) {
 
         switch (estadoAtual) {
@@ -71,7 +73,14 @@ int main(void) {
                     tempoDeJogo = 0.0f;
                     estadoAtual = TELA_JOGO;
                 }
-            
+                if (topScores) { 
+                    DrawText(
+                    TextFormat("Recorde: %.2f s", topScores->tempo),
+                    SCREEN_WIDTH/2 - MeasureText(TextFormat("Recorde: %.2f s", topScores->tempo), 25)/2,
+                    SCREEN_HEIGHT - 150,
+                    25,
+                    GREEN);
+                        }   
                 BeginDrawing();
                 DrawTexture(texturaMenu, 0, 0, WHITE);
                 
@@ -119,8 +128,11 @@ int main(void) {
                     b = prox;
                 }
 
-                if (checar_vitoria_mapa(mapa, jogador->colisao)) estadoAtual = TELA_FIM;
-                
+                if (checar_vitoria_mapa(mapa, jogador->colisao)) {
+                        adicionar_score_ordenado(&topScores, tempoDeJogo);
+                        salvar_scores("scores.txt", topScores);
+                        estadoAtual = TELA_FIM;
+                    }
                 tempoDeJogo += GetFrameTime();
 
                 BeginDrawing();
