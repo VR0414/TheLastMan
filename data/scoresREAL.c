@@ -17,6 +17,15 @@ void salvar_scores(char *arquivo, Score *head) {
     fclose(f);
 }
 
+
+void liberar_scores(Score *head) {
+    while (head) {
+        Score *atual = head;
+        head = head->prox;
+        free(atual);
+    }
+}
+
 void imprimir_score(Score *head) {
     Score *atual = head;
     int posicao = 1;
