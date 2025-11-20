@@ -6,6 +6,6 @@ typedef struct Score {
     struct Score *prox;
 } Score;
 
-
+void imprimir_score(Score *head);
 
 #endif
