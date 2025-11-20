@@ -46,6 +46,21 @@ void liberar_scores(Score *head) {
     }
 }
 
+Score* carregar_scores(char *arquivo) {
+    FILE *f = fopen(arquivo, "r");
+    if (!f) return NULL;
+
+    Score *head = NULL;
+    float t;
+
+    while (fscanf(f, "%f", &t) == 1) {
+        adicionar_score_ordenado(&head, t);
+    }
+
+    fclose(f);
+    return head;
+}
+
 void imprimir_score(Score *head) {
     Score *atual = head;
     int posicao = 1;
