@@ -25,9 +25,9 @@ TheLastMan/
 
 ├── include/ # Headers (.h) das funções e structs
 
-├── data/ # Arquivos de recorde e configuração
+├── data/ # Arquivos de recorde 
 
-└── cli-lib/ # Biblioteca CLI para renderizar o jogo no terminal
+└── resources/ # Arquivos para imagens (.png) do jogo
 
 ## ▶️ Executando o Jogo
 
