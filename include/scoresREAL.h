@@ -8,5 +8,6 @@ typedef struct Score {
 
 void imprimir_score(Score *head);
 void salvar_scores(char *arquivo, Score *head);
+void liberar_scores(Score *head);
 
 #endif
