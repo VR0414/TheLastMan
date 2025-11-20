@@ -26,7 +26,7 @@ void salvar_scores(const char *arquivo, Score *lista) {
     int count = 0;
     while (atual && count < 3) {   // salva só os 3 melhores
         fprintf(f, "%.2f\n", atual->tempo);
-        atual = atual->prox;       // <<< CORRETO
+        atual = atual->prox; 
         count++;
     }
 
