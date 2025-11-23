@@ -27,18 +27,29 @@ int main(void) {
 
     EstadoJogo estadoAtual = TELA_MENU;
 
+    // --- CARREGAMENTO DO MENU ---
     Image imgMenu = LoadImage("resources/menu.png");
     ImageResize(&imgMenu, SCREEN_WIDTH, SCREEN_HEIGHT);
     Texture2D texturaMenu = LoadTextureFromImage(imgMenu);
     UnloadImage(imgMenu);
 
-    float balaWidth = 46.0f;
-    float balaHeight = 11.0f;
+    // --- CONFIGURAÇÃO DA BALA (VISUAL VS HITBOX) ---
+    // Tamanho VISUAL (O que o jogador vê - Maior)
+    float balaVisualW = 65.0f; 
+    float balaVisualH = 20.0f;
+
+    // Tamanho da HITBOX (O que realmente colide - Menor)
+    // Isso cria uma "margem de segurança" para o jogador
+    float balaHitboxW = 35.0f; 
+    float balaHitboxH = 12.0f;
+
     Image imgBala = LoadImage("resources/bala.png");
-    ImageResize(&imgBala, (int)balaWidth, (int)balaHeight);
+    // Redimensionamos a imagem pelo tamanho VISUAL (Grande)
+    ImageResize(&imgBala, (int)balaVisualW, (int)balaVisualH);
     Texture2D texturaBala = LoadTextureFromImage(imgBala);
     UnloadImage(imgBala);
 
+    // --- CONFIGURAÇÃO DO MAPA E JOGADOR ---
     Rectangle areaVitoria = { 0, 0, SCREEN_WIDTH, 80 }; 
     Mapa *mapa = criar_mapa("resources/campo.png", areaVitoria, SCREEN_WIDTH, SCREEN_HEIGHT);
     if (!mapa) return 1;
@@ -60,6 +71,7 @@ int main(void) {
     Score *topScores = NULL;  
     topScores = carregar_scores("scores.txt");
     
+    // --- LOOP PRINCIPAL ---
     while (!WindowShouldClose()) {
 
         switch (estadoAtual) {
@@ -73,6 +85,13 @@ int main(void) {
                     tempoDeJogo = 0.0f;
                     estadoAtual = TELA_JOGO;
                 }
+                
+                BeginDrawing();
+                DrawTexture(texturaMenu, 0, 0, WHITE);
+                
+                DrawText("THE LAST MAN", SCREEN_WIDTH/2 - MeasureText("THE LAST MAN", 60)/2, SCREEN_HEIGHT/3, 60, WHITE);
+                DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, YELLOW);
+                
                 if (topScores) { 
                     DrawText(
                     TextFormat("Recorde: %.2f s", topScores->tempo),
@@ -80,12 +99,7 @@ int main(void) {
                     SCREEN_HEIGHT - 150,
                     25,
                     GREEN);
-                        }   
-                BeginDrawing();
-                DrawTexture(texturaMenu, 0, 0, WHITE);
-                
-                DrawText("THE LAST MAN", SCREEN_WIDTH/2 - MeasureText("THE LAST MAN", 60)/2, SCREEN_HEIGHT/3, 60, WHITE);
-                DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, YELLOW);
+                }    
                 EndDrawing();
             }
             break;
@@ -95,6 +109,7 @@ int main(void) {
                 atualizar_soldado(jogador, SCREEN_WIDTH, SCREEN_HEIGHT);
                 atualizar_balas(&listaBalas, SCREEN_WIDTH, SCREEN_HEIGHT);
                 
+                // --- LÓGICA DE SPAWN (CRIAÇÃO DAS BALAS) ---
                 spawnTimer += GetFrameTime();
                 if (spawnTimer >= spawnIntervalo) {
                     spawnTimer = 0.0f;
@@ -102,18 +117,24 @@ int main(void) {
                     int linha = GetRandomValue(0, MAPA_LINHAS - 1);
                     
                     if (mapa->grade[linha][0] == 1) {
-                        float posY = (linha * mapa->tileHeight) + (mapa->tileHeight / 2) - (balaHeight / 2);
+                        // Cálculo da posição Y baseado no VISUAL para ficar centralizado na estrada
+                        float posY = (linha * mapa->tileHeight) + (mapa->tileHeight / 2) - (balaVisualH / 2);
                         float velX = (float)GetRandomValue(200, 400);
                         Vector2 pos, vel;
                         
                         if (GetRandomValue(0, 1) == 0) {
-                            pos = (Vector2){ -balaWidth, posY }; 
+                            // Nasce na Esquerda (usando largura visual para garantir que nasça fora da tela)
+                            pos = (Vector2){ -balaVisualW, posY }; 
                             vel = (Vector2){ velX, 0 };
                         } else {
+                            // Nasce na Direita
                             pos = (Vector2){ (float)SCREEN_WIDTH, posY };
                             vel = (Vector2){ -velX, 0 };
                         }
-                        adicionar_bala(&listaBalas, criar_bala(pos, vel, 1, balaWidth, balaHeight));
+                        
+                        // IMPORTANTE: Criamos a bala com o tamanho da HITBOX (Menor)
+                        // Assim, a colisão é mais benevolente, mas a imagem desenhada será a grande (texturaBala)
+                        adicionar_bala(&listaBalas, criar_bala(pos, vel, 1, balaHitboxW, balaHitboxH));
                     }
                 }
                 
@@ -142,6 +163,8 @@ int main(void) {
                 
                 BeginBlendMode(BLEND_ALPHA);
                 desenhar_soldado(jogador);
+                // A função desenhar_balas vai usar a texturaBala (grande)
+                // na posição da bala (que tem hitbox pequena)
                 desenhar_balas(&listaBalas, texturaBala);
                 EndBlendMode();
                 
@@ -168,12 +191,13 @@ int main(void) {
                     DrawText(TextFormat("Tempo: %.2f segundos", tempoDeJogo), SCREEN_WIDTH/2 - MeasureText(TextFormat("Tempo: %.2f segundos", tempoDeJogo), 30)/2, SCREEN_HEIGHT/2, 30, WHITE);
                 }
                 if (topScores) {
-                DrawText(
-                    TextFormat("Recorde: %.2f segundos", topScores->tempo),
-                    SCREEN_WIDTH/2 - MeasureText(TextFormat("Recorde: %.2f segundos", topScores->tempo), 25)/2,
-                    SCREEN_HEIGHT/2 + 50,
-                    25,
-                    YELLOW);}
+                    DrawText(
+                        TextFormat("Recorde: %.2f segundos", topScores->tempo),
+                        SCREEN_WIDTH/2 - MeasureText(TextFormat("Recorde: %.2f segundos", topScores->tempo), 25)/2,
+                        SCREEN_HEIGHT/2 + 50,
+                        25,
+                        YELLOW);
+                }
                 DrawText("[ ENTER ] Voltar ao Menu", SCREEN_WIDTH/2 - MeasureText("[ ENTER ] Voltar ao Menu", 20)/2, SCREEN_HEIGHT - 100, 20, LIGHTGRAY);
                 EndDrawing();
             }
