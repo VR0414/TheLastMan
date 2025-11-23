@@ -79,8 +79,8 @@ Obrigado pelo interesse em contribuir com o **TheLastMan**! Para garantir que su
 ## 🛠️ Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado:
-1.  **Compilador C:** Recomendamos o **GCC**.
-2.  **Biblioteca Raylib:** Necessária para o funcionamento gráfico e sonoro. Certifique-se de que ela está configurada no `PATH` ou acessível pelo linker.
+1. **Compilador C:** Recomendamos o **GCC**.
+2. **Biblioteca Raylib:** Necessária para o funcionamento gráfico e sonoro. Certifique-se de que ela está configurada no `PATH` ou acessível pelo linker.
 
 ---
 
@@ -88,22 +88,29 @@ Antes de começar, certifique-se de ter instalado:
 
 Como o projeto depende de caminhos de arquivos específicos (imagens e dados), siga **exatamente** esta ordem para configurar, compilar e rodar.
 
+---
+
 ### 1. Configuração Inicial
 
-1.  Faça um **Fork** deste repositório no GitHub.
-2.  Clone o seu fork localmente:
+1. Faça um **Fork** deste repositório no GitHub.
+2. Clone o seu fork localmente:
+
     ```bash
-    git clone [https://github.com/SEU-USUARIO/TheLastMan.git](https://github.com/SEU-USUARIO/TheLastMan.git)
+    git clone https://github.com/SEU-USUARIO/TheLastMan.git
     cd TheLastMan
     ```
-3.  Crie uma **Branch** para sua alteração (não use a main!):
+
+3. Crie uma **Branch** para sua alteração (não use a main!):
+
     ```bash
     git checkout -b feature/minha-melhoria
     ```
 
+---
+
 ### 2. Compilação
 
-O código-fonte está na pasta `raylib/srcrl`, mas os headers estão em `raylib/includerl`.
+O código-fonte está na pasta `raylib/srcrl`, mas os headers estão em `raylib/includerl`.  
 Entre na pasta correta e rode o comando de compilação:
 
 ```bash
@@ -111,29 +118,43 @@ cd raylib/srcrl
 
 # Comando obrigatório (inclui math lib e raylib)
 gcc -o jogo mainRL.c mapaRL.c soldadoRL.c balasRL.c scoresRL.c -I../includerl -lraylib -lm
-```
 
-### 3. Commit das alterações 
+### 3. 📝 Commit das alterações
 
-Adicione os arquivos modificados e crie um commit com uma mensagem clara explicando o que foi feito
+Adicione os arquivos modificados e crie um commit com uma mensagem clara explicando o que foi feito:
 
+```bash
 # Adiciona todas as alterações
 git add .
 
-# Cria o commit (Substitua a mensagem pelo que você fez)
+# Cria o commit (substitua a mensagem pelo que você fez)
 git commit -m "Feat: Adiciona novo obstáculo na fase 1"
 
-# Enviando para o GitHub (Push)
-Envie a branch com suas alterações para o seu fork no GitHub.
+### 4. 🚀 Enviando para o GitHub (Push)
 
+Envie a branch com suas alterações para o seu fork no GitHub:
+
+```bash
 # Envia a branch 'feature/minha-melhoria' para o remoto 'origin'
 git push origin feature/minha-melhoria
 
-3. Abrindo o Pull Request (PR)
-1. Acesse a página do seu repositório fork no GitHub.
-2. Você verá um aviso com um botão verde "Compare & pull request". Clique nele.
-3. Verifique se a "base repository" é o projeto original e a "head repository" é o seu fork.
-4. Escreva um título e uma descrição para o seu PR, explicando o que mudou e por que.
-5. Clique em "Create pull request".
+5. Abrindo o Pull Request (PR)
+	1.	Acesse a página do seu repositório fork no GitHub.
+	2.	Clique no botão verde “Compare & pull request”.
+	3.	Verifique se:
+	•	base repository: é o projeto original
+	•	head repository: é o seu fork
+	4.	Escreva um título e uma descrição explicando o que mudou e por quê.
+	5.	Clique em “Create pull request”.
+
+⸻
+
 Pronto! Agora é só aguardar a revisão. 💥
 
+---
+
+## 🙏 Agradecimento
+
+Muito obrigado por dedicar tempo e esforço para contribuir com o **TheLastMan**.  
+Cada melhoria, sugestão e correção ajuda o projeto a evoluir e ficar ainda melhor.  
+A sua colaboração faz a diferença! 💛💥
