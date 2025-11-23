@@ -118,6 +118,7 @@ cd raylib/srcrl
 
 # Comando obrigatório (inclui math lib e raylib)
 gcc -o jogo mainRL.c mapaRL.c soldadoRL.c balasRL.c scoresRL.c -I../includerl -lraylib -lm
+```
 
 ### 3. 📝 Commit das alterações
 
@@ -129,6 +130,7 @@ git add .
 
 # Cria o commit (substitua a mensagem pelo que você fez)
 git commit -m "Feat: Adiciona novo obstáculo na fase 1"
+```
 
 ### 4. 🚀 Enviando para o GitHub (Push)
 
@@ -137,6 +139,7 @@ Envie a branch com suas alterações para o seu fork no GitHub:
 ```bash
 # Envia a branch 'feature/minha-melhoria' para o remoto 'origin'
 git push origin feature/minha-melhoria
+```
 
 5. Abrindo o Pull Request (PR)
 	1.	Acesse a página do seu repositório fork no GitHub.
