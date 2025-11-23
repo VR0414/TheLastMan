@@ -8,7 +8,12 @@ Bala *criar_bala(Vector2 pos, Vector2 vel, int dano, float width, float height) 
     b->posicao = pos;
     b->velocidade = vel;
     b->dano = dano;
-    b->colisao = (Rectangle){ pos.x, pos.y, width, height };
+    b->colisao = (Rectangle){
+    pos.x + width * 0.1f,
+    pos.y + height * 0.25f,
+    width * 0.8f,
+    height * 0.5f
+        };
     b->proxima = NULL;
     
     return b;
@@ -56,8 +61,8 @@ void atualizar_balas(ListaBalas *lista, int screenWidth, int screenHeight) {
         atual->posicao.x += atual->velocidade.x * dt;
         atual->posicao.y += atual->velocidade.y * dt;
 
-        atual->colisao.x = atual->posicao.x;
-        atual->colisao.y = atual->posicao.y;
+        atual->colisao.x = atual->posicao.x + atual->colisao.width * 0.125f;
+        atual->colisao.y = atual->posicao.y + atual->colisao.height * 0.25f;
 
         if (atual->posicao.x < -100 ||
             atual->posicao.x > screenWidth + 100 ||
