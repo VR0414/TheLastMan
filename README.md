@@ -150,7 +150,7 @@ git push origin feature/minha-melhoria
 	4.	Escreva um título e uma descrição explicando o que mudou e por quê.
 	5.	Clique em “Create pull request”.
 
-⸻
+---
 
 Pronto! Agora é só aguardar a revisão. 💥
 
