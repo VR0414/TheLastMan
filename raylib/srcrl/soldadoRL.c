@@ -9,7 +9,8 @@ Soldado *criar_soldado(Vector2 pos, int vida, float vel, float width, float heig
     s->posInicial = pos;
     s->vida = vida;
     s->velocidade = vel;
-    s->colisao = (Rectangle){ pos.x, pos.y, width, height };
+    s->colisao = (Rectangle){ pos.x + width * 0.15f, pos.y + height * 0.10f, width * 0.70f, height * 0.80f };
+
 
     Image img = LoadImage(texturaPath);
     ImageResize(&img, (int)width, (int)height);
@@ -49,8 +50,9 @@ void atualizar_soldado(Soldado *s, int screenWidth, int screenHeight) {
     if (s->posicao.y < 0) s->posicao.y = 0;
     if (s->posicao.y > screenHeight - s->colisao.height) s->posicao.y = screenHeight - s->colisao.height;
 
-    s->colisao.x = s->posicao.x;
-    s->colisao.y = s->posicao.y;
+    s->colisao.x = s->posicao.x + s->colisao.width * 0.15f;
+    s->colisao.y = s->posicao.y + s->colisao.height * 0.125f;
+
 }
 
 void desenhar_soldado(Soldado *s) {
