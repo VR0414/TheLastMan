@@ -50,7 +50,7 @@ int main(void) {
     Vector2 posInicial = { SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 80.0f };
     float soldW = 70.0f;
     float soldH = 70.0f;
-    float soldVel = 90.0f;
+    float soldVel = 85.0f;
     
     Soldado *jogador = criar_soldado(posInicial, 3, soldVel, soldW, soldH, "resources/soldado.png");
     if (!jogador) return 1;
@@ -59,7 +59,7 @@ int main(void) {
     inicio_lista_balas(&listaBalas);
     
     float spawnTimer = 0.0f;
-    float spawnIntervalo = 0.3f;
+    float spawnIntervalo = 0.2f;
     float tempoDeJogo = 0.0f;
 
     Score *topScores = NULL;
