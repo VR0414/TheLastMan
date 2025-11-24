@@ -57,7 +57,7 @@ int main(void) {
     Vector2 posInicial = { SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 80.0f };
     float soldW = 70.0f;
     float soldH = 70.0f;
-    float soldVel = 75.0f;
+    float soldVel = 90.0f;
     
     Soldado *jogador = criar_soldado(posInicial, 3, soldVel, soldW, soldH, "resources/soldado.png");
     if (!jogador) return 1;
@@ -66,7 +66,7 @@ int main(void) {
     inicio_lista_balas(&listaBalas);
     
     float spawnTimer = 0.0f;
-    float spawnIntervalo = 0.4f; 
+    float spawnIntervalo = 0.3f; 
     float tempoDeJogo = 0.0f;
     Score *topScores = NULL;  
     topScores = carregar_scores("scores.txt");
@@ -89,7 +89,7 @@ int main(void) {
                 BeginDrawing();
                 DrawTexture(texturaMenu, 0, 0, WHITE);
                 
-                DrawText("THE LAST MAN", SCREEN_WIDTH/2 - MeasureText("THE LAST MAN", 60)/2, SCREEN_HEIGHT/3, 60, WHITE);
+                DrawText("THE LAST MAN", SCREEN_WIDTH/2 - MeasureText("THE LAST MAN", 60)/2, SCREEN_HEIGHT/3, 60, BLACK);
                 DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, YELLOW);
                 
                 if (topScores) { 
