@@ -38,9 +38,9 @@ TheLastMan/
 
 - Para compilar o jogo, você precisa ter o Raylib instalado no seu sistema.
 
-Para mais informações sobre como instalar o *Raylib*, acesse: ``https://www.raylib.com/``
+Para mais informações sobre como instalar o **Raylib**, acesse: https://www.raylib.com/
 
-Para executar o **TheLastMan**, siga estas etapas no terminal:
+### Para executar o **TheLastMan**, siga estas etapas no terminal:
 
 ### 1. Clonando Repositório
 
