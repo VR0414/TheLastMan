@@ -50,7 +50,7 @@ No Ubuntu, abra o terminal e digite:
 git clone https://github.com/VR0414/TheLastMan.git
 ```
 
-Entra no diretório:
+Entre no diretório:
 
 ```bash
 cd TheLastMan
