@@ -59,7 +59,7 @@ int main(void) {
     inicio_lista_balas(&listaBalas);
     
     float spawnTimer = 0.0f;
-    float spawnIntervalo = 0.2f;
+    float spawnIntervalo = 0.15f;
     float tempoDeJogo = 0.0f;
 
     Score *topScores = NULL;
