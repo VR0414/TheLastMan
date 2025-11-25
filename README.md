@@ -70,6 +70,16 @@ cd ../..
 
 Divirta-se!
 
+---
+
+## 🎮 Demonstração do Jogo
+
+Assista abaixo ao jogo em execução:
+
+https://github.com/user-attachments/assets/737b0ddd-3846-47ff-9a18-1e2a45fa983a
+
+---
+
 # Como Contribuir com o TheLastMan 🪖
 
 Obrigado pelo interesse em contribuir com o **TheLastMan**! Para garantir que suas alterações funcionem corretamente e sejam integradas, siga este guia passo a passo.
