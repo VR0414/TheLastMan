@@ -43,6 +43,8 @@ TheLastMan/
 - **Vitor Gadelha** – [vrlbga@cesar.school](mailto:vrlbga@cesar.school)  
   🟢 *Líder Técnico – Time de Desenvolvimento*  
 
+---
+
 ## ▶️ Executando o Jogo
 
 ### ⚠️ Pré-requisito importante
