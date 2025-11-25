@@ -76,7 +76,15 @@ Divirta-se!
 
 Assista abaixo ao jogo em execução:
 
-https://github.com/user-attachments/assets/737b0ddd-3846-47ff-9a18-1e2a45fa983a
+https://github.com/user-attachments/assets/bf7a0156-f6e3-4792-907c-bbb98e0df96b
+
+---
+
+## 📝 Apresentação de Slides
+
+Acesse os slides completos da apresentação:
+
+[TheLastMan.pdf](https://github.com/user-attachments/files/23754467/TheLastMan.pdf)
 
 ---
 
