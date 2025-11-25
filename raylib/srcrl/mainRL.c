@@ -83,7 +83,8 @@ int main(void) {
                 DrawTexture(texturaMenu, 0, 0, WHITE);
 
                 DrawText("THE LAST MAN", SCREEN_WIDTH/2 - MeasureText("THE LAST MAN", 60)/2, SCREEN_HEIGHT/3, 60, BLACK);
-                DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, RED);
+                // Corrigi a cor do PRESSIONE ENTER para AMARELO (padrão de alerta)
+                DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, YELLOW);
 
                 if (topScores) {
                     DrawText("TOP 3 RECORDES", SCREEN_WIDTH/2 - MeasureText("TOP 3 RECORDES", 25)/2, SCREEN_HEIGHT - 220, 25, RED);
@@ -160,12 +161,18 @@ int main(void) {
                 
                 BeginBlendMode(BLEND_ALPHA);
                 desenhar_soldado(jogador);
-
                 desenhar_balas(&listaBalas, texturaBala);
                 EndBlendMode();
                 
                 DrawText(TextFormat("VIDAS: %d", jogador->vida), 20, SCREEN_HEIGHT - 50, 40, RED);
-                DrawText(TextFormat("TEMPO: %.1f", tempoDeJogo), SCREEN_WIDTH - 200, SCREEN_HEIGHT - 50, 40, WHITE);
+
+                DrawText(
+                    TextFormat("TEMPO: %.1f", tempoDeJogo), 
+                    SCREEN_WIDTH - MeasureText(TextFormat("TEMPO: %.1f", tempoDeJogo), 40) - 20, 
+                    SCREEN_HEIGHT - 50, 
+                    40, 
+                    WHITE
+                );
                 
                 EndDrawing();
             }
