@@ -32,6 +32,17 @@ TheLastMan/
 
 ---
 
+## 👥 Time de Desenvolvimento  
+
+- **Diego Magnata** – [dfm@cesar.school](mailto:dfm@cesar.school)  
+  🟢 *Agile Coach - Engenheiro de Software – Time de Desenvolvimento*  
+
+- **Matheus Fialho** – [mgfm@cesar.school](mailto:mgfm@cesar.school)  
+  🟢 *Engenheiro de QA – Time de Desenvolvimento*  
+
+- **Vitor Gadelha** – [vrlbga@cesar.school](mailto:vrlbga@cesar.school)  
+  🟢 *Líder Técnico – Time de Desenvolvimento*  
+
 ## ▶️ Executando o Jogo
 
 ### ⚠️ Pré-requisito importante
