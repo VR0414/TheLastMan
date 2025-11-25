@@ -151,12 +151,13 @@ Envie a branch com suas alterações para o seu fork no GitHub:
 git push origin feature/minha-melhoria
 ```
 
-5. Abrindo o Pull Request (PR)
+### 5. Abrindo o Pull Request (PR)
+
 	1.	Acesse a página do seu repositório fork no GitHub.
 	2.	Clique no botão verde “Compare & pull request”.
 	3.	Verifique se:
-	•	base repository: é o projeto original
-	•	head repository: é o seu fork
+		•	base repository: é o projeto original
+		•	head repository: é o seu fork
 	4.	Escreva um título e uma descrição explicando o que mudou e por quê.
 	5.	Clique em “Create pull request”.
 
