@@ -87,7 +87,7 @@ int main(void) {
                 DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, RED);
 
                 if (topScores) {
-                    DrawText("TOP 3 RECORDES", SCREEN_WIDTH/2 - MeasureText("TOP 3 RECORDES", 25)/2, SCREEN_HEIGHT - 220, 25, RED);
+                    DrawText("TOP 3 RECORDES", SCREEN_WIDTH/2 - MeasureText("TOP 3 RECORDES", 25)/2, SCREEN_HEIGHT - 220, 25, BLACK);
 
                     Score *atual = topScores;
                     int count = 0;
