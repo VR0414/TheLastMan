@@ -83,7 +83,7 @@ int main(void) {
                 DrawTexture(texturaMenu, 0, 0, WHITE);
 
                 DrawText("THE LAST MAN", SCREEN_WIDTH/2 - MeasureText("THE LAST MAN", 60)/2, SCREEN_HEIGHT/3, 60, BLACK);
-                DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, YELLOW);
+                DrawText("PRESSIONE ENTER", SCREEN_WIDTH/2 - MeasureText("PRESSIONE ENTER", 30)/2, SCREEN_HEIGHT/2, 30, RED);
 
                 if (topScores) {
                     DrawText("TOP 3 RECORDES", SCREEN_WIDTH/2 - MeasureText("TOP 3 RECORDES", 25)/2, SCREEN_HEIGHT - 220, 25, RED);
