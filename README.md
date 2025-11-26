@@ -10,6 +10,7 @@ O objetivo do jogo é chegar ao topo da tela em segurança, completando a missã
 
 ## 🕹️ Gameplay
 
+* Pressione ENTER para **iniciar** e Q para **sair** a qualquer momento.
 * O jogador controla o **soldado** usando as teclas **W, A, S, D** ou setas do teclado.
 * Balas aparecem aleatoriamente no campo de batalha e o jogador deve **desviar de todas**.
 * Ao chegar ao **abrigo**, o tempo de conclusão é registrado em um arquivo de **recordes**.
