@@ -109,7 +109,7 @@ Divirta-se!
 
 <p align="center">
   <a href="https://github.com/user-attachments/assets/bf7a0156-f6e3-4792-907c-bbb98e0df96b" target="_blank" rel="noopener">
-    <strong>▶️ Assistir vídeo no GitHub (abre em nova aba)</strong>
+    <strong>▶️ Assistir vídeo completo (abre em nova aba)</strong>
   </a>
 </p>
 
