@@ -119,7 +119,7 @@ Divirta-se!
     <img src="resources/TheLastMan.gif" alt="Preview da gameplay — TheLastMan" style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:6px;">
   </a>
   <br>
-  <small>GIF de demonstração — toque/ clique para ver em tamanho real</small>
+  <small>GIF de Gameplay — toque para melhor experiência (Mobile)</small>
 </p>
 
 ---
