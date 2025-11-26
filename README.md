@@ -107,9 +107,19 @@ Divirta-se!
 
 ## 🎮 Demonstração do Jogo
 
-Assista abaixo ao jogo em execução:
+<p align="center">
+  <a href="https://github.com/user-attachments/assets/bf7a0156-f6e3-4792-907c-bbb98e0df96b" target="_blank" rel="noopener">
+    <strong>▶️ Assistir vídeo no GitHub (abre em nova aba)</strong>
+  </a>
+</p>
 
-https://github.com/user-attachments/assets/bf7a0156-f6e3-4792-907c-bbb98e0df96b
+<p align="center">
+  <a href="resources/preview.gif">
+    <img src="resources/preview.gif" alt="Preview da gameplay — TheLastMan" style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:6px;">
+  </a>
+  <br>
+  <small>GIF de demonstração — toque/ clique para ver em tamanho real</small>
+</p>
 
 ---
 
