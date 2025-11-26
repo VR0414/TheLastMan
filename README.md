@@ -114,8 +114,8 @@ Divirta-se!
 </p>
 
 <p align="center">
-  <a href="resources/preview.gif">
-    <img src="resources/preview.gif" alt="Preview da gameplay — TheLastMan" style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:6px;">
+  <a href="resources/TheLastMan - GIF.mp4">
+    <img src="resources/TheLastMan - GIF.mp4" alt="Preview da gameplay — TheLastMan" style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:6px;">
   </a>
   <br>
   <small>GIF de demonstração — toque/ clique para ver em tamanho real</small>
